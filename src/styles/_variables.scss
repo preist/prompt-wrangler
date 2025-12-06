@@ -1,153 +1,45 @@
-// Prompt Wrangler - Design System Variables
-// Cowboy/Western Theme
+// Colors
+$color-primary: #540907;
+$color-secondary: #ffbf1e;
+$color-accent: #ff5c0a;
+$color-neutral: #e3dcd1;
+$color-light: #f5f0e8;
+$color-text: #2c1810;
+$color-text-light: #5a4a3d;
+$color-text-muted: #8b7d71;
+$color-success: #2d6a4f;
+$color-error: $color-accent;
+$color-warning: $color-secondary;
 
-// =============================================================================
-// Color Palette
-// =============================================================================
+// Spacing
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
 
-// Primary Colors (Cowboy Theme)
-$color-primary: #540907; // Deep burgundy - primary actions, headers
-$color-secondary: #ffbf1e; // Golden yellow - highlights, warnings
-$color-accent: #ff5c0a; // Bright orange - alerts, danger states
-$color-accidental: #ff9abf; // Pink accent - occasional character
-
-// Neutral Colors
-$color-neutral-dark: #e3dcd1; // Warm gray - borders, secondary text
-$color-neutral-light: #f5f0e8; // Cream - backgrounds, cards
-$color-neutral-darker: #a39788; // Darker warm gray
-$color-neutral-lightest: #faf8f5; // Off-white
-
-// Semantic Colors
-$color-success: #2d6a4f; // Forest green
-$color-error: $color-accent; // Reuse bright orange
-$color-warning: $color-secondary; // Reuse golden yellow
-$color-info: #457b9d; // Muted blue
-
-// Text Colors
-$color-text-primary: #2c1810; // Dark brown
-$color-text-secondary: #5a4a3d; // Medium brown
-$color-text-tertiary: #8b7d71; // Light brown
-$color-text-inverse: #ffffff; // White
-
-// Background Colors
-$color-bg-primary: #ffffff;
-$color-bg-secondary: $color-neutral-light;
-$color-bg-tertiary: $color-neutral-lightest;
-$color-bg-overlay: rgba(84, 9, 7, 0.75); // Dark overlay
-
-// Border Colors
-$color-border-primary: $color-neutral-dark;
-$color-border-secondary: #d1c9bb;
-$color-border-focus: $color-primary;
-
-// =============================================================================
-// Spacing Scale
-// =============================================================================
-
-$spacing-xs: 0.25rem; // 4px
-$spacing-sm: 0.5rem; // 8px
-$spacing-md: 1rem; // 16px
-$spacing-lg: 1.5rem; // 24px
-$spacing-xl: 2rem; // 32px
-$spacing-2xl: 3rem; // 48px
-$spacing-3xl: 4rem; // 64px
-
-// =============================================================================
 // Typography
-// =============================================================================
-
-// Font Families
-$font-family-base:
-  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-$font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Courier New', monospace;
-$font-family-heading: $font-family-base;
-
-// Font Sizes
-$font-size-xs: 0.75rem; // 12px
-$font-size-sm: 0.875rem; // 14px
-$font-size-base: 1rem; // 16px
-$font-size-md: 1.125rem; // 18px
-$font-size-lg: 1.25rem; // 20px
-$font-size-xl: 1.5rem; // 24px
-$font-size-2xl: 2rem; // 32px
-$font-size-3xl: 2.5rem; // 40px
-
-// Font Weights
+$font-family:
+  -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, sans-serif;
+$font-family-mono: 'SF Mono', monaco, 'Cascadia Code', 'Courier New', monospace;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
 $font-weight-normal: 400;
 $font-weight-medium: 500;
-$font-weight-semibold: 600;
 $font-weight-bold: 700;
+$line-height: 1.5;
 
-// Line Heights
-$line-height-tight: 1.25;
-$line-height-normal: 1.5;
-$line-height-relaxed: 1.75;
-
-// =============================================================================
 // Layout
-// =============================================================================
+$border-radius: 4px;
+$border-width: 1px;
+$border-color: $color-neutral;
+$shadow-sm: 0 1px 2px rgb(84 9 7 / 10%);
+$shadow: 0 4px 6px rgb(84 9 7 / 15%);
+$transition-speed: 250ms;
+$transition: all $transition-speed ease-in-out;
 
-// Borders
-$border-width-thin: 1px;
-$border-width-medium: 2px;
-$border-width-thick: 4px;
-
-$border-radius-sm: 2px;
-$border-radius-base: 4px;
-$border-radius-md: 6px;
-$border-radius-lg: 8px;
-$border-radius-xl: 12px;
-$border-radius-full: 9999px;
-
-// Shadows
-$shadow-xs: 0 1px 2px rgba(84, 9, 7, 0.05);
-$shadow-sm: 0 1px 2px rgba(84, 9, 7, 0.1);
-$shadow-base: 0 4px 6px rgba(84, 9, 7, 0.1);
-$shadow-md: 0 4px 6px rgba(84, 9, 7, 0.15);
-$shadow-lg: 0 10px 15px rgba(84, 9, 7, 0.2);
-$shadow-xl: 0 20px 25px rgba(84, 9, 7, 0.25);
-$shadow-inner: inset 0 2px 4px rgba(84, 9, 7, 0.1);
-
-// Z-index Scale
-$z-index-dropdown: 1000;
-$z-index-sticky: 1020;
-$z-index-fixed: 1030;
-$z-index-modal-backdrop: 1040;
-$z-index-modal: 1050;
-$z-index-popover: 1060;
-$z-index-tooltip: 1070;
-
-// Max Widths
-$max-width-xs: 20rem; // 320px
-$max-width-sm: 24rem; // 384px
-$max-width-md: 28rem; // 448px
-$max-width-lg: 32rem; // 512px
-$max-width-xl: 36rem; // 576px
-$max-width-2xl: 42rem; // 672px
-$max-width-3xl: 48rem; // 768px
-
-// =============================================================================
-// Transitions
-// =============================================================================
-
-$transition-speed-fast: 150ms;
-$transition-speed-base: 250ms;
-$transition-speed-slow: 350ms;
-
-$transition-timing-default: ease-in-out;
-$transition-timing-in: ease-in;
-$transition-timing-out: ease-out;
-
-$transition-base: all $transition-speed-base $transition-timing-default;
-$transition-fade: opacity $transition-speed-base $transition-timing-default;
-$transition-slide: transform $transition-speed-base $transition-timing-default;
-
-// =============================================================================
-// Breakpoints
-// =============================================================================
-
-$breakpoint-xs: 480px;
-$breakpoint-sm: 640px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 1024px;
-$breakpoint-xl: 1280px;
+// Z-Index
+$z-modal-backdrop: 1040;
+$z-modal: 1050;

@@ -1,0 +1,70 @@
+@use '../variables' as *;
+
+// Grid (4-column system for Chrome extension)
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -$spacing-sm;
+  margin-left: -$spacing-sm;
+
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+// Columns
+.column,
+.columns {
+  width: 100%;
+  padding-right: $spacing-sm;
+  padding-left: $spacing-sm;
+}
+
+// 4-column grid widths
+.one.column,
+.one.columns {
+  width: 25%;
+}
+
+.two.columns {
+  width: 50%;
+}
+
+.three.columns {
+  width: 75%;
+}
+
+.four.columns {
+  width: 100%;
+}
+
+// Fractional utilities
+.one-half.column {
+  width: 50%;
+}
+
+// Offsets
+.offset-by-one.column,
+.offset-by-one.columns {
+  margin-left: 25%;
+}
+
+.offset-by-two.column,
+.offset-by-two.columns {
+  margin-left: 50%;
+}
+
+.offset-by-three.column,
+.offset-by-three.columns {
+  margin-left: 75%;
+}

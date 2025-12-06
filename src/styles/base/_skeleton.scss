@@ -1,0 +1,229 @@
+@use 'sass:color';
+@use '../variables' as *;
+
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  font-family: $font-family;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: $line-height;
+  color: $color-text;
+}
+
+// Typography
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: $spacing-md;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+}
+
+h1 {
+  font-size: $font-size-xl * 1.5;
+}
+
+h2 {
+  font-size: $font-size-xl;
+}
+
+h3 {
+  font-size: $font-size-lg;
+}
+
+h4 {
+  font-size: $font-size-base;
+}
+
+h5 {
+  font-size: $font-size-sm;
+}
+
+h6 {
+  font-size: $font-size-sm;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: $spacing-md;
+}
+
+a {
+  text-decoration: none;
+  color: $color-primary;
+  transition: $transition;
+
+  &:hover {
+    color: color.adjust($color-primary, $lightness: -10%);
+  }
+}
+
+// Buttons
+button,
+.button {
+  display: inline-block;
+  padding: $spacing-sm $spacing-md;
+  font-family: inherit;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  line-height: 1;
+  text-align: center;
+  color: #ffffff;
+  background-color: $color-primary;
+  border: $border-width solid $color-primary;
+  border-radius: $border-radius;
+  transition: $transition;
+  cursor: pointer;
+
+  &:hover {
+    background-color: color.adjust($color-primary, $lightness: -8%);
+    border-color: color.adjust($color-primary, $lightness: -8%);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.button-secondary {
+  color: $color-primary;
+  background-color: transparent;
+  border-color: $color-primary;
+
+  &:hover {
+    background-color: rgba($color-primary, 0.1);
+  }
+}
+
+// Forms
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='search'],
+textarea,
+select {
+  width: 100%;
+  padding: $spacing-sm;
+  font-family: inherit;
+  font-size: $font-size-base;
+  color: $color-text;
+  background-color: #ffffff;
+  border: $border-width solid $border-color;
+  border-radius: $border-radius;
+  transition: $transition;
+
+  &:focus {
+    border-color: $color-primary;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+  }
+
+  &::placeholder {
+    color: $color-text-muted;
+  }
+}
+
+label {
+  display: block;
+  margin-bottom: $spacing-xs;
+  font-weight: $font-weight-medium;
+}
+
+// Lists
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: $spacing-md;
+  padding-left: $spacing-lg;
+}
+
+li {
+  margin-bottom: $spacing-xs;
+}
+
+// Code
+code,
+pre {
+  font-family: $font-family-mono;
+  font-size: 0.9em;
+}
+
+code {
+  padding: 2px 6px;
+  color: $color-text-light;
+  background-color: rgba($color-neutral, 0.5);
+  border-radius: 3px;
+}
+
+pre {
+  padding: $spacing-md;
+  overflow-x: auto;
+  background-color: rgba($color-neutral, 0.5);
+  border-radius: $border-radius;
+
+  code {
+    padding: 0;
+    background: none;
+  }
+}
+
+// Utilities
+.container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: $color-text-muted;
+}
+
+.mt-sm {
+  margin-top: $spacing-sm;
+}
+
+.mt-md {
+  margin-top: $spacing-md;
+}
+
+.mt-lg {
+  margin-top: $spacing-lg;
+}
+
+.mb-sm {
+  margin-bottom: $spacing-sm;
+}
+
+.mb-md {
+  margin-bottom: $spacing-md;
+}
+
+.mb-lg {
+  margin-bottom: $spacing-lg;
+}

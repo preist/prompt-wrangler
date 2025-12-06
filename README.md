@@ -1,34 +1,28 @@
 # Prompt Wrangler
 
-A Chrome extension that detects and anonymizes sensitive data in AI chat prompts.
-
-## What it does
-
-Intercepts prompts sent to ChatGPT, detects sensitive information (emails, phone numbers, credit cards, API keys, social security numbers), and replaces them with placeholders before they reach the server. Alerts users when sensitive data is detected and maintains a history for audit purposes.
+Chrome extension that detects and anonymizes sensitive data in AI chat prompts.
 
 ## Tech Stack
 
-- React + TypeScript
-- Vite
-- Chrome Extension Manifest V3
-- Context API for state management
-- Sass for styling
+React + TypeScript + Vite + Sass + Chrome Extension Manifest V3
+
+## Commands
+
+```bash
+npm install              # Install dependencies
+npm run dev              # Start dev server
+npm run build            # Production build
+npm run lint             # Run ESLint + stylelint
+npm run lint:fix         # Auto-fix linting issues
+npm run format           # Format with Prettier
+npm run type-check       # TypeScript type checking
+npm run test             # Run tests
+```
 
 ## Development
 
-```bash
-npm install
-npm run dev
-```
-
-Load the extension in Chrome:
-1. Navigate to `chrome://extensions`
-2. Enable "Developer mode"
-3. Click "Load unpacked"
-4. Select the `dist/` folder
-
-## Build
-
-```bash
-npm run build
-```
+Build and load in Chrome:
+1. `npm run build`
+2. Open `chrome://extensions`
+3. Enable "Developer mode"
+4. Click "Load unpacked" → select `dist/` folder

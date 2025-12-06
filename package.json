@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . && stylelint \"src/**/*.{css,scss}\"",
+    "lint:fix": "eslint . --fix && stylelint \"src/**/*.{css,scss}\" --fix",
+    "lint:styles": "stylelint \"src/**/*.{css,scss}\"",
+    "lint:styles:fix": "stylelint \"src/**/*.{css,scss}\" --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,scss,css,json,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,scss,css,json,md}\"",
     "type-check": "tsc --noEmit",
@@ -16,6 +18,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "normalize.css": "^8.0.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
@@ -42,6 +45,11 @@
     "jsdom": "^27.2.0",
     "prettier": "^3.7.4",
     "sass": "^1.94.2",
+    "stylelint": "^16.26.1",
+    "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-standard-scss": "^16.0.0",
+    "stylelint-order": "^7.0.0",
+    "stylelint-scss": "^6.13.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",
