@@ -1,14 +1,5 @@
 import type { DetectedIssue, Detector } from './types';
-
-// Detects US and international phone numbers
-// US: (555) 123-4567, 555-123-4567, +1-555-123-4567
-// International: +972 50 123 4567, +44 20 7123 4567, etc.
-const US_PATTERN = /(?:\+?1\s?[-.]?\s?)?\(?[2-9]\d{2}\)?\s?[-.]?\s?\d{3}\s?[-.]?\s?\d{4}\b/g;
-const INTL_PATTERN =
-  /\+\d{1,3}\s?[-.]?\s?(?:\(?\d{1,4}\)?[\s.-]?)?\d{1,4}[\s.-]?\d{1,4}[\s.-]?\d{1,4}(?:[\s.-]?\d{1,4})?\b/g;
-
-const PATTERNS = [INTL_PATTERN, US_PATTERN]; // Order matters: most specific first
-const PHONE_PLACEHOLDER = '[PHONE_NUMBER]';
+import { PHONE_PATTERNS, PHONE_PLACEHOLDER, US_PHONE_PATTERN } from './patterns';
 
 interface TextRange {
   start: number;
@@ -45,7 +36,7 @@ function detect(text: string): DetectedIssue[] {
   const issues: DetectedIssue[] = [];
   const consumedRanges: TextRange[] = [];
 
-  for (const pattern of PATTERNS) {
+  for (const pattern of PHONE_PATTERNS) {
     for (const match of text.matchAll(pattern)) {
       addMatch(issues, consumedRanges, match);
     }
@@ -57,7 +48,7 @@ function detect(text: string): DetectedIssue[] {
 function anonymize(text: string, dismissed: Set<string>): string {
   let result = text;
 
-  for (const pattern of PATTERNS) {
+  for (const pattern of PHONE_PATTERNS) {
     result = result.replace(pattern, (match) =>
       dismissed.has(match.toLowerCase()) ? match : PHONE_PLACEHOLDER
     );
@@ -68,7 +59,7 @@ function anonymize(text: string, dismissed: Set<string>): string {
 
 export const phoneDetector: Detector = {
   type: 'phone',
-  pattern: US_PATTERN,
+  pattern: US_PHONE_PATTERN,
   placeholder: PHONE_PLACEHOLDER,
   detect,
   anonymize,

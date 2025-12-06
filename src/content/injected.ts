@@ -1,20 +1,19 @@
 // This script runs in the page's main world, not the isolated content script world
 // It has access to the page's actual fetch function before any app code runs
 
+import {
+  EMAIL_PATTERN,
+  EMAIL_PLACEHOLDER,
+  PHONE_PATTERNS,
+  PHONE_PLACEHOLDER,
+} from '../utils/detectors/patterns';
+
 interface DetectedIssue {
   id: string;
   type: string;
   value: string;
   timestamp: number;
 }
-
-const EMAIL_PATTERN = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
-const EMAIL_PLACEHOLDER = '[EMAIL_ADDRESS]';
-
-const US_PHONE_PATTERN = /(?:\+?1\s?[-.]?\s?)?\(?[2-9]\d{2}\)?\s?[-.]?\s?\d{3}\s?[-.]?\s?\d{4}\b/g;
-const INTL_PHONE_PATTERN =
-  /\+\d{1,3}\s?[-.]?\s?(?:\(?\d{1,4}\)?[\s.-]?)?\d{1,4}[\s.-]?\d{1,4}[\s.-]?\d{1,4}(?:[\s.-]?\d{1,4})?\b/g;
-const PHONE_PLACEHOLDER = '[PHONE_NUMBER]';
 
 console.log('[Prompt Wrangler] Injected script (main world) loaded');
 
@@ -46,29 +45,17 @@ function detectPhones(text: string): DetectedIssue[] {
   const issues: DetectedIssue[] = [];
   const seen = new Set<string>();
 
-  // Check international first (more specific)
-  for (const match of text.matchAll(INTL_PHONE_PATTERN)) {
-    if (match[0] && !seen.has(match[0])) {
-      seen.add(match[0]);
-      issues.push({
-        id: generateId(),
-        type: 'phone',
-        value: match[0],
-        timestamp: Date.now(),
-      });
-    }
-  }
-
-  // Check US numbers
-  for (const match of text.matchAll(US_PHONE_PATTERN)) {
-    if (match[0] && !seen.has(match[0])) {
-      seen.add(match[0]);
-      issues.push({
-        id: generateId(),
-        type: 'phone',
-        value: match[0],
-        timestamp: Date.now(),
-      });
+  for (const pattern of PHONE_PATTERNS) {
+    for (const match of text.matchAll(pattern)) {
+      if (match[0] && !seen.has(match[0])) {
+        seen.add(match[0]);
+        issues.push({
+          id: generateId(),
+          type: 'phone',
+          value: match[0],
+          timestamp: Date.now(),
+        });
+      }
     }
   }
 
@@ -81,8 +68,9 @@ function anonymizeEmails(text: string): string {
 
 function anonymizePhones(text: string): string {
   let result = text;
-  result = result.replace(INTL_PHONE_PATTERN, PHONE_PLACEHOLDER);
-  result = result.replace(US_PHONE_PATTERN, PHONE_PLACEHOLDER);
+  for (const pattern of PHONE_PATTERNS) {
+    result = result.replace(pattern, PHONE_PLACEHOLDER);
+  }
   return result;
 }
 

@@ -1,8 +1,5 @@
 import type { Detector, DetectedIssue } from './types';
-
-const EMAIL_PATTERN = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
-
-const EMAIL_PLACEHOLDER = '[EMAIL_ADDRESS]';
+import { EMAIL_PATTERN, EMAIL_PLACEHOLDER } from './patterns';
 
 function generateId(): string {
   return `${Date.now().toString()}-${Math.random().toString(36).substring(2, 9)}`;
