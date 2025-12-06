@@ -1,7 +1,8 @@
 import type { Detector, DetectedIssue, DetectionResult, DismissedItem } from './detectors/types';
 import { emailDetector } from './detectors/emailDetector';
+import { phoneDetector } from './detectors/phoneDetector';
 
-const DETECTORS: Detector[] = [emailDetector];
+const DETECTORS: Detector[] = [emailDetector, phoneDetector];
 
 function isDismissed(item: DismissedItem): boolean {
   return Date.now() < item.dismissedUntil;

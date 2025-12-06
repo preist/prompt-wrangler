@@ -11,6 +11,11 @@ interface DetectedIssue {
 const EMAIL_PATTERN = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
 const EMAIL_PLACEHOLDER = '[EMAIL_ADDRESS]';
 
+const US_PHONE_PATTERN = /(?:\+?1\s?[-.]?\s?)?\(?[2-9]\d{2}\)?\s?[-.]?\s?\d{3}\s?[-.]?\s?\d{4}\b/g;
+const INTL_PHONE_PATTERN =
+  /\+\d{1,3}\s?[-.]?\s?(?:\(?\d{1,4}\)?[\s.-]?)?\d{1,4}[\s.-]?\d{1,4}[\s.-]?\d{1,4}(?:[\s.-]?\d{1,4})?\b/g;
+const PHONE_PLACEHOLDER = '[PHONE_NUMBER]';
+
 console.log('[Prompt Wrangler] Injected script (main world) loaded');
 
 const originalFetch = window.fetch;
@@ -37,8 +42,48 @@ function detectEmails(text: string): DetectedIssue[] {
   return issues;
 }
 
+function detectPhones(text: string): DetectedIssue[] {
+  const issues: DetectedIssue[] = [];
+  const seen = new Set<string>();
+
+  // Check international first (more specific)
+  for (const match of text.matchAll(INTL_PHONE_PATTERN)) {
+    if (match[0] && !seen.has(match[0])) {
+      seen.add(match[0]);
+      issues.push({
+        id: generateId(),
+        type: 'phone',
+        value: match[0],
+        timestamp: Date.now(),
+      });
+    }
+  }
+
+  // Check US numbers
+  for (const match of text.matchAll(US_PHONE_PATTERN)) {
+    if (match[0] && !seen.has(match[0])) {
+      seen.add(match[0]);
+      issues.push({
+        id: generateId(),
+        type: 'phone',
+        value: match[0],
+        timestamp: Date.now(),
+      });
+    }
+  }
+
+  return issues;
+}
+
 function anonymizeEmails(text: string): string {
   return text.replace(EMAIL_PATTERN, EMAIL_PLACEHOLDER);
+}
+
+function anonymizePhones(text: string): string {
+  let result = text;
+  result = result.replace(INTL_PHONE_PATTERN, PHONE_PLACEHOLDER);
+  result = result.replace(US_PHONE_PATTERN, PHONE_PLACEHOLDER);
+  return result;
 }
 
 function scanAndAnonymize(obj: unknown): { anonymized: unknown; issues: DetectedIssue[] } {
@@ -46,10 +91,15 @@ function scanAndAnonymize(obj: unknown): { anonymized: unknown; issues: Detected
 
   function processValue(value: unknown): unknown {
     if (typeof value === 'string') {
-      const issues = detectEmails(value);
-      if (issues.length > 0) {
-        allIssues.push(...issues);
-        return anonymizeEmails(value);
+      const emailIssues = detectEmails(value);
+      const phoneIssues = detectPhones(value);
+      const hasIssues = emailIssues.length > 0 || phoneIssues.length > 0;
+
+      if (hasIssues) {
+        allIssues.push(...emailIssues, ...phoneIssues);
+        let anonymized = anonymizeEmails(value);
+        anonymized = anonymizePhones(anonymized);
+        return anonymized;
       }
       return value;
     }
