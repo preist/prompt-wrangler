@@ -19,6 +19,7 @@ export interface SettingsContextValue {
   toggleProtectedMode: () => Promise<void>;
   togglePlatform: (platform: keyof EnabledPlatforms) => Promise<void>;
   toggleDataType: (type: keyof EnabledDataTypes) => Promise<void>;
+  enableAllDataTypes: () => Promise<void>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -186,6 +187,29 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const enableAllDataTypes = async () => {
+    const newDataTypes = {
+      email: true,
+      phone: true,
+      creditCard: true,
+      ssn: true,
+    };
+    setEnabledDataTypes(newDataTypes);
+    await chrome.storage.local.set({ 'settings.dataTypes': newDataTypes });
+
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tab?.id) {
+      try {
+        await chrome.tabs.sendMessage(tab.id, {
+          type: 'UPDATE_DATA_TYPES',
+          dataTypes: newDataTypes,
+        });
+      } catch {
+        // Content script not available - ignore error
+      }
+    }
+  };
+
   return (
     <SettingsContext.Provider
       value={{
@@ -195,6 +219,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         toggleProtectedMode,
         togglePlatform,
         toggleDataType,
+        enableAllDataTypes,
       }}
     >
       {children}

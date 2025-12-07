@@ -3,24 +3,24 @@ import { Toggle } from '@popup/components/Toggle/Toggle';
 import { ProtectedModeToggle } from '@popup/components/ProtectedModeToggle/ProtectedModeToggle';
 
 export function SettingsScreen() {
-  const { protectedMode, enabledPlatforms, enabledDataTypes, togglePlatform, toggleDataType } =
-    useSettings();
+  const {
+    protectedMode,
+    enabledPlatforms,
+    enabledDataTypes,
+    togglePlatform,
+    toggleDataType,
+    enableAllDataTypes,
+  } = useSettings();
+
+  const allChecked =
+    enabledDataTypes.email &&
+    enabledDataTypes.phone &&
+    enabledDataTypes.creditCard &&
+    enabledDataTypes.ssn;
 
   const handleCheckAll = () => {
     if (!protectedMode) return;
-
-    const allChecked =
-      enabledDataTypes.email &&
-      enabledDataTypes.phone &&
-      enabledDataTypes.creditCard &&
-      enabledDataTypes.ssn;
-
-    if (!allChecked) {
-      if (!enabledDataTypes.email) void toggleDataType('email');
-      if (!enabledDataTypes.phone) void toggleDataType('phone');
-      if (!enabledDataTypes.creditCard) void toggleDataType('creditCard');
-      if (!enabledDataTypes.ssn) void toggleDataType('ssn');
-    }
+    void enableAllDataTypes();
   };
 
   return (
@@ -30,14 +30,16 @@ export function SettingsScreen() {
       <div className="settings-screen__panel">
         <div className="settings-screen__header">
           <h2 className="settings-screen__title">Settings</h2>
-          <button
-            type="button"
-            className="settings-screen__check-all-button"
-            onClick={handleCheckAll}
-            disabled={!protectedMode}
-          >
-            Check all
-          </button>
+          {!allChecked && (
+            <button
+              type="button"
+              className="settings-screen__check-all-button"
+              onClick={handleCheckAll}
+              disabled={!protectedMode}
+            >
+              Check all
+            </button>
+          )}
         </div>
 
         <div className="settings-screen__content">
