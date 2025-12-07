@@ -1,13 +1,13 @@
 .app {
-  display: flex;
-  flex-direction: column;
-  width: 360px;
-  height: 550px;
   background-color: #fbfaf2;
   background-image: url('./assets/background.png');
   background-position: center bottom;
-  background-size: contain;
   background-repeat: no-repeat;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  height: 550px;
+  width: 360px;
 }
 
 .app__content {

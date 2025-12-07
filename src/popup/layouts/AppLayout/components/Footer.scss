@@ -1,33 +1,33 @@
 .app__footer {
-  position: relative;
-  z-index: 10;
-  display: flex;
   align-items: flex-start;
+  display: flex;
   justify-content: left;
   padding: 16px;
+  position: relative;
+  z-index: 10;
 }
 
 .app__footer-link {
-  position: relative;
-  z-index: 2;
-  display: flex;
   align-items: center;
-  gap: 6px;
+  color: #2c1810;
+  display: flex;
   font-size: 12px;
   font-weight: 500;
-  color: #2c1810;
+  gap: 6px;
+  position: relative;
+  z-index: 2;
 }
 
 .app__footer-icon {
-  width: 20px;
   height: 20px;
+  width: 20px;
 }
 
 .app__footer-cactus {
+  bottom: 0;
+  height: 100px;
   position: absolute;
   right: 0;
-  bottom: 0;
-  z-index: 1;
   width: 360px;
-  height: 100px;
+  z-index: 1;
 }

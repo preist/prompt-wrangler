@@ -6,49 +6,49 @@
 }
 
 .history-screen__empty {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 100%;
+  justify-content: center;
   padding: 32px;
   text-align: center;
 }
 
 .history-screen__empty-icon {
-  margin-bottom: 16px;
   font-size: 48px;
+  margin-bottom: 16px;
 }
 
 .history-screen__empty-title {
-  margin-bottom: 8px;
+  color: #1a1a1a;
   font-size: 18px;
   font-weight: 600;
-  color: #1a1a1a;
+  margin-bottom: 8px;
 }
 
 .history-screen__empty-description {
-  font-size: 14px;
   color: #666666;
+  font-size: 14px;
 }
 
 .history-screen__header {
+  border-bottom: 1px solid #e5e5e5;
   display: flex;
   justify-content: flex-end;
   padding: 12px 16px;
-  border-bottom: 1px solid #e5e5e5;
 }
 
 .history-screen__clear-button {
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #ffffff;
   background-color: #ef4444;
   border: none;
   border-radius: 6px;
-  transition: background-color 0.2s ease;
+  color: #ffffff;
   cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  transition: background-color 0.2s ease;
 
   &:hover {
     background-color: #dc2626;
@@ -69,22 +69,22 @@
 }
 
 .history-screen__batch-header {
-  display: flex;
   align-items: center;
+  background-color: #f5f5f5;
+  display: flex;
   justify-content: space-between;
   padding: 12px 16px;
-  background-color: #f5f5f5;
 }
 
 .history-screen__batch-title {
+  color: #1a1a1a;
   font-size: 13px;
   font-weight: 600;
-  color: #1a1a1a;
 }
 
 .history-screen__batch-count {
-  font-size: 12px;
   color: #666666;
+  font-size: 12px;
 }
 
 .history-screen__batch-issues {
@@ -93,11 +93,11 @@
 }
 
 .history-screen__item {
-  display: flex;
   align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
   gap: 12px;
   padding: 12px 16px;
-  border-bottom: 1px solid #f0f0f0;
 
   &:last-child {
     border-bottom: none;
@@ -116,31 +116,31 @@
 }
 
 .history-screen__item-value {
+  color: #1a1a1a;
   font-size: 14px;
   font-weight: 500;
-  color: #1a1a1a;
 }
 
 .history-screen__item-timestamp {
-  font-size: 12px;
   color: #666666;
+  font-size: 12px;
 }
 
 .history-screen__item-status {
-  margin-top: 4px;
+  color: #999999;
   font-size: 11px;
   font-style: italic;
-  color: #999999;
+  margin-top: 4px;
 }
 
 .history-screen__delete-button {
-  padding: 8px;
-  font-size: 18px;
   background: none;
   border: none;
-  opacity: 0.6;
-  transition: opacity 0.2s ease;
   cursor: pointer;
+  font-size: 18px;
+  opacity: 0.6;
+  padding: 8px;
+  transition: opacity 0.2s ease;
 
   &:hover {
     opacity: 1;

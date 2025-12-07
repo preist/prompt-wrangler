@@ -13,12 +13,12 @@ html {
 }
 
 body {
-  margin: 0;
+  color: $color-text;
   font-family: $font-family;
   font-size: $font-size-base;
   font-weight: $font-weight-normal;
   line-height: $line-height;
-  color: $color-text;
+  margin: 0;
 }
 
 // Typography
@@ -28,10 +28,10 @@ h3,
 h4,
 h5,
 h6 {
-  margin-top: 0;
-  margin-bottom: $spacing-md;
-  font-weight: $font-weight-bold;
   color: $color-primary;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-md;
+  margin-top: 0;
 }
 
 h1 {
@@ -59,13 +59,13 @@ h6 {
 }
 
 p {
-  margin-top: 0;
   margin-bottom: $spacing-md;
+  margin-top: 0;
 }
 
 a {
-  text-decoration: none;
   color: $color-primary;
+  text-decoration: none;
   transition: $transition;
 
   &:hover {
@@ -76,19 +76,19 @@ a {
 // Buttons
 button,
 .button {
+  background-color: $color-primary;
+  border: $border-width solid $color-primary;
+  border-radius: $border-radius;
+  color: #ffffff;
+  cursor: pointer;
   display: inline-block;
-  padding: $spacing-sm $spacing-md;
   font-family: inherit;
   font-size: $font-size-base;
   font-weight: $font-weight-medium;
   line-height: 1;
+  padding: $spacing-sm $spacing-md;
   text-align: center;
-  color: #ffffff;
-  background-color: $color-primary;
-  border: $border-width solid $color-primary;
-  border-radius: $border-radius;
   transition: $transition;
-  cursor: pointer;
 
   &:hover {
     background-color: color.adjust($color-primary, $lightness: -8%);
@@ -101,15 +101,15 @@ button,
   }
 
   &:disabled {
-    opacity: 0.5;
     cursor: not-allowed;
+    opacity: 0.5;
   }
 }
 
 .button-secondary {
-  color: $color-primary;
   background-color: transparent;
   border-color: $color-primary;
+  color: $color-primary;
 
   &:hover {
     background-color: rgba($color-primary, 0.1);
@@ -123,20 +123,20 @@ input[type='password'],
 input[type='search'],
 textarea,
 select {
-  width: 100%;
-  padding: $spacing-sm;
-  font-family: inherit;
-  font-size: $font-size-base;
-  color: $color-text;
   background-color: #ffffff;
   border: $border-width solid $border-color;
   border-radius: $border-radius;
+  color: $color-text;
+  font-family: inherit;
+  font-size: $font-size-base;
+  padding: $spacing-sm;
   transition: $transition;
+  width: 100%;
 
   &:focus {
     border-color: $color-primary;
-    outline: none;
     box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+    outline: none;
   }
 
   &::placeholder {
@@ -146,15 +146,15 @@ select {
 
 label {
   display: block;
-  margin-bottom: $spacing-xs;
   font-weight: $font-weight-medium;
+  margin-bottom: $spacing-xs;
 }
 
 // Lists
 ul,
 ol {
-  margin-top: 0;
   margin-bottom: $spacing-md;
+  margin-top: 0;
   padding-left: $spacing-lg;
 }
 
@@ -170,30 +170,30 @@ pre {
 }
 
 code {
-  padding: 2px 6px;
-  color: $color-text-light;
   background-color: rgba($color-neutral, 0.5);
   border-radius: 3px;
+  color: $color-text-light;
+  padding: 2px 6px;
 }
 
 pre {
-  padding: $spacing-md;
-  overflow-x: auto;
   background-color: rgba($color-neutral, 0.5);
   border-radius: $border-radius;
+  overflow-x: auto;
+  padding: $spacing-md;
 
   code {
-    padding: 0;
     background: none;
+    padding: 0;
   }
 }
 
 // Utilities
 .container {
-  width: 100%;
-  max-width: 600px;
   margin: 0 auto;
+  max-width: 600px;
   padding: 0 $spacing-md;
+  width: 100%;
 }
 
 .text-center {

@@ -2,32 +2,32 @@
 
 // Grid (4-column system for Chrome extension)
 .container {
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 0 $spacing-md;
   position: relative;
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 0 $spacing-md;
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -$spacing-sm;
   margin-left: -$spacing-sm;
+  margin-right: -$spacing-sm;
 
   &::after {
+    clear: both;
     content: '';
     display: table;
-    clear: both;
   }
 }
 
 // Columns
 .column,
 .columns {
-  width: 100%;
-  padding-right: $spacing-sm;
   padding-left: $spacing-sm;
+  padding-right: $spacing-sm;
+  width: 100%;
 }
 
 // 4-column grid widths

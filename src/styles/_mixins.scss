@@ -2,14 +2,14 @@
 @use 'variables' as *;
 
 @mixin flex-center {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: center;
 }
 
 @mixin flex-between {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: space-between;
 }
 
@@ -20,11 +20,11 @@
 }
 
 @mixin card {
-  padding: $spacing-md;
   background: $color-light;
   border: $border-width solid $border-color;
   border-radius: $border-radius;
   box-shadow: $shadow-sm;
+  padding: $spacing-md;
 }
 
 @mixin focus-ring {
@@ -33,13 +33,13 @@
 }
 
 @mixin visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  white-space: nowrap;
   border-width: 0;
   clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
