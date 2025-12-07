@@ -1,31 +1,12 @@
-import { useState } from 'react';
-import { SettingsProvider } from './contexts/SettingsContext';
-import { IssuesProvider } from './contexts/IssuesContext';
-import Navigation, { type Screen } from './components/Navigation';
-import IssuesFoundScreen from './screens/IssuesFoundScreen';
-import HistoryScreen from './screens/HistoryScreen';
-import SettingsScreen from './screens/SettingsScreen';
+import { SettingsProvider } from '@popup/state/SettingsContext';
+import { IssuesProvider } from '@popup/state/IssuesContext';
+import { AppLayout } from '@popup/layouts/AppLayout/AppLayout';
 
-function AppContent() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>('issues');
-
-  return (
-    <div className="app">
-      <Navigation current={currentScreen} onChange={setCurrentScreen} />
-      <div className="app__content">
-        {currentScreen === 'issues' && <IssuesFoundScreen />}
-        {currentScreen === 'history' && <HistoryScreen />}
-        {currentScreen === 'settings' && <SettingsScreen />}
-      </div>
-    </div>
-  );
-}
-
-export default function App() {
+export function App() {
   return (
     <SettingsProvider>
       <IssuesProvider>
-        <AppContent />
+        <AppLayout />
       </IssuesProvider>
     </SettingsProvider>
   );

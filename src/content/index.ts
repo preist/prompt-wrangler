@@ -1,5 +1,5 @@
-import type { DetectedIssue } from '../utils/detectors/types';
-import type { IssuesDetectedMessage } from '../types/messages';
+import type { DetectedIssue } from '@utils/detectors/types';
+import type { IssuesDetectedMessage } from '@shared/messages';
 
 console.log('[Prompt Wrangler] Content script (isolated world) loaded');
 

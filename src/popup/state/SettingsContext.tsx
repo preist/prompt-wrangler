@@ -21,6 +21,7 @@ export interface SettingsContextValue {
   toggleDataType: (type: keyof EnabledDataTypes) => Promise<void>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const SettingsContext = createContext<SettingsContextValue | undefined>(undefined);
 
 const DEFAULT_SETTINGS = {

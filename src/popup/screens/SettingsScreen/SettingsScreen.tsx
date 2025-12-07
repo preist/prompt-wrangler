@@ -1,7 +1,7 @@
-import { useSettings } from '../hooks/useSettings';
-import Toggle from '../components/Toggle';
+import { useSettings } from '@popup/hooks/useSettings';
+import { Toggle } from '@popup/components/Toggle/Toggle';
 
-export default function SettingsScreen() {
+export function SettingsScreen() {
   const {
     protectedMode,
     enabledPlatforms,

@@ -20,6 +20,12 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@popup/*": ["src/popup/*"],
+      "@utils/*": ["src/utils/*"],
+      "@shared/*": ["src/types/*"]
+    },
 
     /* Linting - Strict Mode */
     "strict": true,

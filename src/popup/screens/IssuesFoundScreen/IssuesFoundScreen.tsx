@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { useIssues } from '../hooks/useIssues';
+import { useIssues } from '@popup/hooks/useIssues';
 
-export default function IssuesFoundScreen() {
+export function IssuesFoundScreen() {
   const { latestIssues, dismissIssue, clearDismissed, markIssuesAsViewed } = useIssues();
 
   useEffect(() => {

@@ -10,7 +10,7 @@ import {
   CREDIT_CARD_PLACEHOLDER,
   SSN_PATTERN,
   SSN_PLACEHOLDER,
-} from '../utils/detectors/patterns';
+} from '@utils/detectors/patterns';
 
 interface DetectedIssue {
   id: string;

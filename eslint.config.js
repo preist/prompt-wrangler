@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
+import importPlugin from 'eslint-plugin-import';
 
 export default tseslint.config(
   // Global ignores
@@ -35,6 +36,7 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       prettier: prettierPlugin,
+      import: importPlugin,
     },
     rules: {
       // React Hooks rules
@@ -75,11 +77,32 @@ export default tseslint.config(
         },
       ],
 
+      // Import rules - enforce no ../ imports within popup folder (except styles)
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['../*', '!../*.scss', '!../*.css'],
+              message: 'Use absolute imports with @popup, @utils, or @shared aliases instead of relative imports.',
+            },
+          ],
+        },
+      ],
+
       // General rules
       'no-console': ['warn', { allow: ['warn', 'error', 'log'] }],
       'prefer-const': 'error',
       'no-var': 'error',
       eqeqeq: ['error', 'always'],
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: './tsconfig.app.json',
+        },
+      },
     },
   },
 

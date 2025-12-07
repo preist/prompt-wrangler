@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { IssuesContext } from '../contexts/IssuesContext';
+import { IssuesContext } from '@popup/state/IssuesContext';
 
 export function useIssues() {
   const context = useContext(IssuesContext);

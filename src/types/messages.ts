@@ -1,4 +1,4 @@
-import type { DetectedIssue } from '../utils/detectors/types';
+import type { DetectedIssue } from '@utils/detectors/types';
 
 export interface IssuesDetectedMessage {
   type: 'ISSUES_DETECTED';

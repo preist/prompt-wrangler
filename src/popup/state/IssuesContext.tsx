@@ -23,6 +23,7 @@ export interface IssuesContextValue {
   clearAllHistory: () => Promise<void>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const IssuesContext = createContext<IssuesContextValue | undefined>(undefined);
 
 export function IssuesProvider({ children }: { children: ReactNode }) {

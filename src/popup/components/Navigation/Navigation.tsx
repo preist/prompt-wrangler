@@ -9,7 +9,7 @@ interface NavigationProps {
   onChange: (screen: Screen) => void;
 }
 
-export default function Navigation({ current, onChange }: NavigationProps) {
+export function Navigation({ current, onChange }: NavigationProps) {
   return (
     <nav className="navigation">
       <button

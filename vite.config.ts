@@ -9,6 +9,13 @@ const isInjectedScript = process.env.BUILD_TARGET === 'injected';
 
 export default defineConfig({
   plugins: [react(), svgr()],
+  resolve: {
+    alias: {
+      '@popup': resolve(__dirname, 'src/popup'),
+      '@utils': resolve(__dirname, 'src/utils'),
+      '@shared': resolve(__dirname, 'src/types'),
+    },
+  },
   build: {
     outDir: 'dist',
     emptyOutDir: !isContentScript && !isBackgroundScript && !isInjectedScript,

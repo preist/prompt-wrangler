@@ -1,4 +1,4 @@
-import type { Message } from '../types/messages';
+import type { Message } from '@shared/messages';
 
 interface StoredIssue {
   id: string;
