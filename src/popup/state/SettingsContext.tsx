@@ -94,10 +94,14 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         await chrome.storage.local.set({ 'settings.dataTypes': updatedDataTypes });
 
         if (tab?.id) {
-          void chrome.tabs.sendMessage(tab.id, {
-            type: 'UPDATE_DATA_TYPES',
-            dataTypes: updatedDataTypes,
-          });
+          try {
+            await chrome.tabs.sendMessage(tab.id, {
+              type: 'UPDATE_DATA_TYPES',
+              dataTypes: updatedDataTypes,
+            });
+          } catch {
+            // Content script not available - ignore error
+          }
         }
       }
     }
@@ -105,10 +109,14 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     await chrome.storage.local.set({ 'settings.protectedMode': newValue });
 
     if (tab?.id) {
-      void chrome.tabs.sendMessage(tab.id, {
-        type: 'TOGGLE_PROTECTED_MODE',
-        enabled: newValue,
-      });
+      try {
+        await chrome.tabs.sendMessage(tab.id, {
+          type: 'TOGGLE_PROTECTED_MODE',
+          enabled: newValue,
+        });
+      } catch {
+        // Content script not available - ignore error
+      }
     }
   };
 
@@ -128,10 +136,14 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       // Notify content script
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       if (tab?.id) {
-        void chrome.tabs.sendMessage(tab.id, {
-          type: 'TOGGLE_PROTECTED_MODE',
-          enabled: false,
-        });
+        try {
+          await chrome.tabs.sendMessage(tab.id, {
+            type: 'TOGGLE_PROTECTED_MODE',
+            enabled: false,
+          });
+        } catch {
+          // Content script not available - ignore error
+        }
       }
     }
   };
@@ -146,10 +158,14 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (tab?.id) {
-      void chrome.tabs.sendMessage(tab.id, {
-        type: 'UPDATE_DATA_TYPES',
-        dataTypes: newDataTypes,
-      });
+      try {
+        await chrome.tabs.sendMessage(tab.id, {
+          type: 'UPDATE_DATA_TYPES',
+          dataTypes: newDataTypes,
+        });
+      } catch {
+        // Content script not available - ignore error
+      }
     }
 
     const anyDataTypeEnabled = Object.values(newDataTypes).some((enabled) => enabled);
@@ -158,10 +174,14 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       await chrome.storage.local.set({ 'settings.protectedMode': false });
 
       if (tab?.id) {
-        void chrome.tabs.sendMessage(tab.id, {
-          type: 'TOGGLE_PROTECTED_MODE',
-          enabled: false,
-        });
+        try {
+          await chrome.tabs.sendMessage(tab.id, {
+            type: 'TOGGLE_PROTECTED_MODE',
+            enabled: false,
+          });
+        } catch {
+          // Content script not available - ignore error
+        }
       }
     }
   };
