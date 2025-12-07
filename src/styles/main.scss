@@ -2,7 +2,8 @@
 @use 'base/grid';
 
 // Popup styles
-@use '../popup/App';
+@use '../popup/layouts/AppLayout/AppLayout';
+@use '../popup/layouts/AppLayout/components/Footer';
 @use '../popup/components/Navigation/Navigation';
 @use '../popup/components/Toggle/Toggle';
 @use '../popup/screens/IssuesFoundScreen/IssuesFoundScreen';

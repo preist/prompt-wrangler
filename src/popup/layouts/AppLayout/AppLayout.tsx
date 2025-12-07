@@ -3,6 +3,7 @@ import { Navigation } from '@popup/components/Navigation/Navigation';
 import { IssuesFoundScreen } from '@popup/screens/IssuesFoundScreen/IssuesFoundScreen';
 import { HistoryScreen } from '@popup/screens/HistoryScreen/HistoryScreen';
 import { SettingsScreen } from '@popup/screens/SettingsScreen/SettingsScreen';
+import { Footer } from './components/Footer';
 import type { Screen } from '@popup/components/Navigation/Navigation';
 
 export function AppLayout() {
@@ -16,6 +17,7 @@ export function AppLayout() {
         {currentScreen === 'history' && <HistoryScreen />}
         {currentScreen === 'settings' && <SettingsScreen />}
       </div>
+      <Footer />
     </div>
   );
 }
