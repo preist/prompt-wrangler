@@ -84,7 +84,7 @@ export default tseslint.config(
           patterns: [
             {
               group: ['../*', '!../*.scss', '!../*.css'],
-              message: 'Use absolute imports with @popup, @utils, or @shared aliases instead of relative imports.',
+              message: 'Use absolute imports with @popup, @lib, or @shared aliases instead of relative imports.',
             },
           ],
         },

@@ -1,13 +1,9 @@
 import ShieldIcon from './assets/shield.svg?react';
 import CalendarIcon from './assets/calendar.svg?react';
 import SettingsIcon from './assets/settings.svg?react';
+import type { NavigationProps } from './types';
 
-export type Screen = 'issues' | 'history' | 'settings';
-
-interface NavigationProps {
-  current: Screen;
-  onChange: (screen: Screen) => void;
-}
+export type { Screen } from './types';
 
 export function Navigation({ current, onChange }: NavigationProps) {
   return (

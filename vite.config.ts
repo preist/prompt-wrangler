@@ -12,7 +12,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@popup': resolve(__dirname, 'src/popup'),
-      '@utils': resolve(__dirname, 'src/utils'),
+      '@lib': resolve(__dirname, 'src/lib'),
       '@shared': resolve(__dirname, 'src/types'),
     },
   },

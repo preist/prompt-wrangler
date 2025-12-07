@@ -23,7 +23,7 @@
     "baseUrl": ".",
     "paths": {
       "@popup/*": ["src/popup/*"],
-      "@utils/*": ["src/utils/*"],
+      "@lib/*": ["src/lib/*"],
       "@shared/*": ["src/types/*"]
     },
 

@@ -1,4 +1,4 @@
-import type { DetectedIssue, DismissedItem } from '@utils/detectors/types';
+import type { DetectedIssue, DismissedItem } from '@lib/detectors/types';
 
 export interface StorageSchema {
   detected_issues: DetectedIssue[];

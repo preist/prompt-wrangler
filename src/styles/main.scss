@@ -2,9 +2,9 @@
 @use 'base/grid';
 
 // Popup styles
-@use '../popup/styles/App';
-@use '../popup/styles/components/Navigation';
-@use '../popup/styles/components/Toggle';
-@use '../popup/styles/screens/IssuesFoundScreen';
-@use '../popup/styles/screens/HistoryScreen';
-@use '../popup/styles/screens/SettingsScreen';
+@use '../popup/App';
+@use '../popup/components/Navigation/Navigation';
+@use '../popup/components/Toggle/Toggle';
+@use '../popup/screens/IssuesFoundScreen/IssuesFoundScreen';
+@use '../popup/screens/HistoryScreen/HistoryScreen';
+@use '../popup/screens/SettingsScreen/SettingsScreen';
