@@ -11,7 +11,7 @@ export function AppLayout() {
 
   return (
     <div className="app">
-      <Navigation current={currentScreen} onChange={setCurrentScreen} />
+      <Navigation className="app__navigation" current={currentScreen} onChange={setCurrentScreen} />
       <div className="app__content">
         {currentScreen === 'issues' && <IssuesFoundScreen />}
         {currentScreen === 'history' && <HistoryScreen />}

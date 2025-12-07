@@ -1,3 +1,4 @@
+import { classnames } from '@lib/utils/classnames';
 import ShieldIcon from './assets/shield.svg?react';
 import CalendarIcon from './assets/calendar.svg?react';
 import SettingsIcon from './assets/settings.svg?react';
@@ -6,12 +7,13 @@ export type Screen = 'issues' | 'history' | 'settings';
 
 interface NavigationProps {
   current: Screen;
+  className?: string;
   onChange: (screen: Screen) => void;
 }
 
-export function Navigation({ current, onChange }: NavigationProps) {
+export function Navigation({ current, className, onChange }: NavigationProps) {
   return (
-    <nav className="navigation">
+    <nav className={classnames('navigation', className)}>
       <button
         type="button"
         className={`navigation__button ${current === 'issues' ? 'navigation__button--active' : ''}`}
