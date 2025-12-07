@@ -18,6 +18,14 @@ interface DetectedIssue {
 console.log('[Prompt Wrangler] Injected script (main world) loaded');
 
 const originalFetch = window.fetch;
+let protectedModeEnabled = true;
+
+// Listen for protected mode changes from content script
+window.addEventListener('prompt-wrangler-mode-change', (event: Event) => {
+  const customEvent = event as CustomEvent<{ enabled: boolean }>;
+  protectedModeEnabled = customEvent.detail.enabled;
+  console.log('[Prompt Wrangler] Protected mode changed:', protectedModeEnabled);
+});
 
 function generateId(): string {
   return `${Date.now().toString()}-${Math.random().toString(36).substring(2, 9)}`;
@@ -115,6 +123,12 @@ window.fetch = async function (input: RequestInfo | URL, init?: RequestInit): Pr
   const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
 
   console.log('[Prompt Wrangler] Fetch intercepted:', url);
+
+  // Skip scanning if protected mode is disabled
+  if (!protectedModeEnabled) {
+    console.log('[Prompt Wrangler] Protected mode disabled, skipping scan');
+    return await originalFetch(input, init);
+  }
 
   if (
     url.includes('/backend-api/') &&

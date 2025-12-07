@@ -1,0 +1,125 @@
+.history-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.history-screen__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 32px;
+  text-align: center;
+}
+
+.history-screen__empty-icon {
+  margin-bottom: 16px;
+  font-size: 48px;
+}
+
+.history-screen__empty-title {
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.history-screen__empty-description {
+  font-size: 14px;
+  color: #666666;
+}
+
+.history-screen__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-screen__batch {
+  border-bottom: 1px solid #e5e5e5;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.history-screen__batch-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: #f5f5f5;
+}
+
+.history-screen__batch-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.history-screen__batch-count {
+  font-size: 12px;
+  color: #666666;
+}
+
+.history-screen__batch-issues {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-screen__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.history-screen__item-icon {
+  font-size: 24px;
+}
+
+.history-screen__item-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.history-screen__item-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.history-screen__item-timestamp {
+  font-size: 12px;
+  color: #666666;
+}
+
+.history-screen__item-status {
+  margin-top: 4px;
+  font-size: 11px;
+  font-style: italic;
+  color: #999999;
+}
+
+.history-screen__delete-button {
+  padding: 8px;
+  font-size: 18px;
+  background: none;
+  border: none;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}

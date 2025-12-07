@@ -1,2 +1,10 @@
 @use 'base/skeleton';
 @use 'base/grid';
+
+// Popup styles
+@use '../popup/styles/App';
+@use '../popup/styles/components/Navigation';
+@use '../popup/styles/components/Toggle';
+@use '../popup/styles/screens/IssuesFoundScreen';
+@use '../popup/styles/screens/HistoryScreen';
+@use '../popup/styles/screens/SettingsScreen';
