@@ -5,14 +5,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow-y: auto;
-}
-
-.issues-found-screen__protected-mode-panel {
-  @include panel;
-
-  margin: 16px;
-  padding: 0;
+  overflow: hidden;
 }
 
 .issues-found-screen__empty {
@@ -38,91 +31,4 @@
 .issues-found-screen__empty-description {
   color: $color-gray-dark;
   font-size: 14px;
-}
-
-.issues-found-screen__header {
-  border-bottom: 1px solid $color-border;
-  display: flex;
-  justify-content: flex-end;
-  padding: 12px 16px;
-}
-
-.issues-found-screen__clear-button {
-  background-color: $color-success;
-  border: none;
-  border-radius: 6px;
-  color: $color-white;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 8px 16px;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: #236649;
-  }
-}
-
-.issues-found-screen__list {
-  display: flex;
-  flex-direction: column;
-}
-
-.issues-found-screen__item {
-  border-bottom: 1px solid $color-border;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 16px;
-}
-
-.issues-found-screen__item-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.issues-found-screen__item-type {
-  color: $color-gray-dark;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-.issues-found-screen__item-value {
-  color: $color-text-dark;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.issues-found-screen__item-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.issues-found-screen__dismiss-button {
-  background-color: $color-white;
-  border: 1px solid $color-success;
-  border-radius: 6px;
-  color: $color-success;
-  cursor: pointer;
-  flex: 1;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 8px 12px;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: #f0f9f6;
-  }
-
-  &--forever {
-    border-color: $color-accent;
-    color: $color-accent;
-
-    &:hover {
-      background-color: #fef2f2;
-    }
-  }
 }

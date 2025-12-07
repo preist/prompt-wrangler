@@ -6,6 +6,9 @@
 @use '../popup/layouts/AppLayout/components/Footer';
 @use '../popup/components/Navigation/Navigation';
 @use '../popup/components/Toggle/Toggle';
+@use '../popup/components/ProtectedModeToggle/ProtectedModeToggle';
+@use '../popup/components/IssueList/IssueList';
+@use '../popup/components/IssueListItem/IssueListItem';
 @use '../popup/screens/IssuesFoundScreen/IssuesFoundScreen';
 @use '../popup/screens/HistoryScreen/HistoryScreen';
 @use '../popup/screens/SettingsScreen/SettingsScreen';
