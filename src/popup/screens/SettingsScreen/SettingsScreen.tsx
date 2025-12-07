@@ -19,6 +19,7 @@ export function SettingsScreen() {
           description="Enable or disable all protection features"
           checked={protectedMode}
           onChange={toggleProtectedMode}
+          large
         />
       </div>
 

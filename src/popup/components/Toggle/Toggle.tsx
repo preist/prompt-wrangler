@@ -3,10 +3,11 @@ interface ToggleProps {
   description?: string;
   checked: boolean;
   disabled?: boolean;
+  large?: boolean;
   onChange: (checked: boolean) => void;
 }
 
-export function Toggle({ label, description, checked, disabled, onChange }: ToggleProps) {
+export function Toggle({ label, description, checked, disabled, large, onChange }: ToggleProps) {
   const handleChange = () => {
     if (!disabled) {
       onChange(!checked);
@@ -25,7 +26,7 @@ export function Toggle({ label, description, checked, disabled, onChange }: Togg
         aria-checked={checked}
         aria-label={label}
         disabled={disabled}
-        className={`toggle__switch ${checked ? 'toggle__switch--checked' : ''}`}
+        className={`toggle__switch ${checked ? 'toggle__switch--checked' : ''} ${large ? 'toggle__switch--large' : ''}`}
         onClick={handleChange}
       >
         <span className="toggle__switch-handle" />
