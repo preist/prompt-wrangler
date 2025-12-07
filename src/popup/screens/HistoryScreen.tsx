@@ -9,7 +9,7 @@ interface BatchGroup {
 }
 
 export default function HistoryScreen() {
-  const { history, deleteFromHistory } = useIssues();
+  const { history, deleteFromHistory, clearAllHistory } = useIssues();
 
   // Group issues by batchId
   const batches = useMemo(() => {
@@ -57,6 +57,17 @@ export default function HistoryScreen() {
 
   return (
     <div className="history-screen">
+      <div className="history-screen__header">
+        <button
+          type="button"
+          className="history-screen__clear-button"
+          onClick={() => {
+            void clearAllHistory();
+          }}
+        >
+          Clear All
+        </button>
+      </div>
       <div className="history-screen__list">
         {batches.map((batch) => (
           <div key={batch.batchId} className="history-screen__batch">

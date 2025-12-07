@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useIssues } from '../hooks/useIssues';
 
 export default function IssuesFoundScreen() {
-  const { latestIssues, dismissIssue, clearDismissed } = useIssues();
+  const { latestIssues, dismissIssue, clearDismissed, markIssuesAsViewed } = useIssues();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,6 +32,17 @@ export default function IssuesFoundScreen() {
 
   return (
     <div className="issues-found-screen">
+      <div className="issues-found-screen__header">
+        <button
+          type="button"
+          className="issues-found-screen__clear-button"
+          onClick={() => {
+            void markIssuesAsViewed();
+          }}
+        >
+          Clear Issues
+        </button>
+      </div>
       <div className="issues-found-screen__list">
         {activeIssues.map((issue) => (
           <div key={issue.id} className="issues-found-screen__item">

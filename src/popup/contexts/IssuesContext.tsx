@@ -19,6 +19,8 @@ export interface IssuesContextValue {
   dismissIssue: (id: string, duration: DismissDuration) => Promise<void>;
   deleteFromHistory: (id: string) => Promise<void>;
   clearDismissed: () => void;
+  markIssuesAsViewed: () => Promise<void>;
+  clearAllHistory: () => Promise<void>;
 }
 
 export const IssuesContext = createContext<IssuesContextValue | undefined>(undefined);
@@ -101,6 +103,20 @@ export function IssuesProvider({ children }: { children: ReactNode }) {
     await chrome.storage.local.set({ 'issues.history': filtered });
   };
 
+  const markIssuesAsViewed = async () => {
+    await chrome.storage.local.set({ 'issues.latestBatch': null });
+    setLatestBatchId(null);
+  };
+
+  const clearAllHistory = async () => {
+    setHistory([]);
+    setLatestBatchId(null);
+    await chrome.storage.local.set({
+      'issues.history': [],
+      'issues.latestBatch': null,
+    });
+  };
+
   // Compute latest issues from history based on latestBatchId
   const latestIssues = latestBatchId
     ? history.filter((issue) => issue.batchId === latestBatchId)
@@ -114,6 +130,8 @@ export function IssuesProvider({ children }: { children: ReactNode }) {
         dismissIssue,
         deleteFromHistory,
         clearDismissed,
+        markIssuesAsViewed,
+        clearAllHistory,
       }}
     >
       {children}
