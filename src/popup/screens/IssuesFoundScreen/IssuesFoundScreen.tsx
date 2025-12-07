@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import { useIssues } from '@popup/hooks/useIssues';
+import { useSettings } from '@popup/hooks/useSettings';
+import { Toggle } from '@popup/components/Toggle/Toggle';
 
 export function IssuesFoundScreen() {
   const { latestIssues, dismissIssue, clearDismissed, markIssuesAsViewed } = useIssues();
+  const { protectedMode, toggleProtectedMode } = useSettings();
 
   useEffect(() => {
     // Clear badge when viewing issues screen
@@ -22,11 +25,18 @@ export function IssuesFoundScreen() {
   if (activeIssues.length === 0) {
     return (
       <div className="issues-found-screen">
+        <div className="issues-found-screen__protected-mode-panel">
+          <Toggle
+            label="Protected Mode"
+            checked={protectedMode}
+            onChange={toggleProtectedMode}
+            large
+          />
+        </div>
         <div className="issues-found-screen__empty">
-          <div className="issues-found-screen__empty-icon">✓</div>
-          <div className="issues-found-screen__empty-title">No Issues Found</div>
+          <div className="issues-found-screen__empty-title">No issues found</div>
           <div className="issues-found-screen__empty-description">
-            Your prompts are clean and secure
+            Tumbleweeds, your prompts are clean and secure
           </div>
         </div>
       </div>
@@ -35,6 +45,14 @@ export function IssuesFoundScreen() {
 
   return (
     <div className="issues-found-screen">
+      <div className="issues-found-screen__protected-mode-panel">
+        <Toggle
+          label="Protected Mode"
+          checked={protectedMode}
+          onChange={toggleProtectedMode}
+          large
+        />
+      </div>
       <div className="issues-found-screen__header">
         <button
           type="button"
