@@ -1,7 +1,12 @@
 import { useMemo } from 'react';
 import { useIssues } from '@popup/hooks/useIssues';
 import type { Issue } from '@popup/state/IssuesContext';
-import type { BatchGroup } from './types';
+
+interface BatchGroup {
+  batchId: string;
+  timestamp: number;
+  issues: Issue[];
+}
 
 export function HistoryScreen() {
   const { history, deleteFromHistory, clearAllHistory } = useIssues();

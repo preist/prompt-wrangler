@@ -1,4 +1,10 @@
-import type { ToggleProps } from './types';
+interface ToggleProps {
+  label: string;
+  description?: string;
+  checked: boolean;
+  disabled?: boolean;
+  onChange: (checked: boolean) => void;
+}
 
 export function Toggle({ label, description, checked, disabled, onChange }: ToggleProps) {
   const handleChange = () => {

@@ -21,7 +21,7 @@ export default defineConfig({
     emptyOutDir: !isContentScript && !isBackgroundScript && !isInjectedScript,
     rollupOptions: isContentScript
       ? {
-          input: resolve(__dirname, 'src/content/index.ts'),
+          input: resolve(__dirname, 'src/extension/content/index.ts'),
           output: {
             entryFileNames: 'content.js',
             format: 'iife',
@@ -31,7 +31,7 @@ export default defineConfig({
         }
       : isBackgroundScript
         ? {
-            input: resolve(__dirname, 'src/background/index.ts'),
+            input: resolve(__dirname, 'src/extension/background/index.ts'),
             output: {
               entryFileNames: 'background.js',
               format: 'iife',
@@ -41,7 +41,7 @@ export default defineConfig({
           }
         : isInjectedScript
           ? {
-              input: resolve(__dirname, 'src/content/injected.ts'),
+              input: resolve(__dirname, 'src/extension/content/injected.ts'),
               output: {
                 entryFileNames: 'injected.js',
                 format: 'iife',
