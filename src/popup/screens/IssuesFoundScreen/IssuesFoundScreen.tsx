@@ -5,6 +5,9 @@ export function IssuesFoundScreen() {
   const { latestIssues, dismissIssue, clearDismissed, markIssuesAsViewed } = useIssues();
 
   useEffect(() => {
+    // Clear badge when viewing issues screen
+    void chrome.action.setBadgeText({ text: '' });
+
     const interval = setInterval(() => {
       clearDismissed();
     }, 60000);

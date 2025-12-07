@@ -99,6 +99,26 @@ chrome.runtime.onMessage.addListener(
 
           console.log('[Prompt Wrangler] Stored issues in chrome.storage');
 
+          // Update badge with issue count
+          const count = message.issues.length;
+          await chrome.action.setBadgeText({ text: count.toString() });
+          await chrome.action.setBadgeBackgroundColor({ color: '#DC2626' });
+
+          // Show OS notification
+          const itemText = count === 1 ? 'item' : 'items';
+          try {
+            await chrome.notifications.create('prompt-wrangler-alert', {
+              type: 'basic',
+              iconUrl: 'icons/icon-128.png',
+              title: 'Sensitive Data Detected',
+              message: `${count.toString()} ${itemText} detected and anonymized`,
+              priority: 2,
+            });
+            console.log('[Prompt Wrangler] Notification created successfully');
+          } catch (notificationError) {
+            console.error('[Prompt Wrangler] Failed to create notification:', notificationError);
+          }
+
           // Update icon to show alert
           void updateIcon();
 
@@ -126,3 +146,11 @@ chrome.runtime.onMessage.addListener(
     return false;
   }
 );
+
+// Handle notification clicks - open the popup
+chrome.notifications.onClicked.addListener((notificationId) => {
+  if (notificationId === 'prompt-wrangler-alert') {
+    void chrome.action.openPopup();
+    console.log('[Prompt Wrangler] Notification clicked, opening popup');
+  }
+});
