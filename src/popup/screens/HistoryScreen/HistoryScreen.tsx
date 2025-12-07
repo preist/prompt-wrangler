@@ -1,40 +1,43 @@
-import { useMemo } from 'react';
 import { useIssues } from '@popup/hooks/useIssues';
-import type { Issue } from '@popup/state/IssuesContext';
+import { ProtectedModeToggle } from '@popup/components/ProtectedModeToggle/ProtectedModeToggle';
+import EmailIcon from '@popup/components/IssueListItem/assets/email.svg?react';
+import PhoneIcon from '@popup/components/IssueListItem/assets/phone.svg?react';
+import CreditCardIcon from '@popup/components/IssueListItem/assets/credit_card.svg?react';
+import SsnIcon from '@popup/components/IssueListItem/assets/ssn.svg?react';
 
-interface BatchGroup {
-  batchId: string;
-  timestamp: number;
-  issues: Issue[];
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  email: EmailIcon,
+  phone: PhoneIcon,
+  creditCard: CreditCardIcon,
+  ssn: SsnIcon,
+};
+
+function getIcon(type: string) {
+  const IconComponent = ICON_MAP[type];
+  if (!IconComponent) return null;
+  return <IconComponent className="history-screen__item-icon" />;
+}
+
+function formatTimestamp(timestamp: number) {
+  return new Date(timestamp).toLocaleString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
 }
 
 export function HistoryScreen() {
   const { history, deleteFromHistory, clearAllHistory } = useIssues();
 
-  // Group issues by batchId
-  const batches = useMemo(() => {
-    const batchMap = new Map<string, BatchGroup>();
-
-    history.forEach((issue) => {
-      if (!batchMap.has(issue.batchId)) {
-        batchMap.set(issue.batchId, {
-          batchId: issue.batchId,
-          timestamp: issue.timestamp,
-          issues: [],
-        });
-      }
-      batchMap.get(issue.batchId)?.issues.push(issue);
-    });
-
-    // Convert to array and sort by timestamp (newest first)
-    return Array.from(batchMap.values()).sort((a, b) => b.timestamp - a.timestamp);
-  }, [history]);
-
-  if (batches.length === 0) {
+  if (history.length === 0) {
     return (
       <div className="history-screen">
+        <ProtectedModeToggle />
         <div className="history-screen__empty">
-          <div className="history-screen__empty-icon">📜</div>
           <div className="history-screen__empty-title">No History Yet</div>
           <div className="history-screen__empty-description">Detected issues will appear here</div>
         </div>
@@ -42,68 +45,47 @@ export function HistoryScreen() {
     );
   }
 
-  const getIssueIcon = (type: Issue['type']) => {
-    switch (type) {
-      case 'email':
-        return '📧';
-      case 'phone':
-        return '📞';
-      case 'creditCard':
-        return '💳';
-      case 'ssn':
-        return '🆔';
-    }
-  };
-
   return (
     <div className="history-screen">
-      <div className="history-screen__header">
-        <button
-          type="button"
-          className="history-screen__clear-button"
-          onClick={() => {
-            void clearAllHistory();
-          }}
-        >
-          Clear All
-        </button>
-      </div>
-      <div className="history-screen__list">
-        {batches.map((batch) => (
-          <div key={batch.batchId} className="history-screen__batch">
-            <div className="history-screen__batch-header">
-              <div className="history-screen__batch-title">
-                Prompt from {new Date(batch.timestamp).toLocaleString()}
-              </div>
-              <div className="history-screen__batch-count">{batch.issues.length} issue(s)</div>
-            </div>
-            <div className="history-screen__batch-issues">
-              {batch.issues.map((issue) => (
-                <div key={issue.id} className="history-screen__item">
-                  <div className="history-screen__item-icon">{getIssueIcon(issue.type)}</div>
-                  <div className="history-screen__item-content">
-                    <div className="history-screen__item-value">{issue.value}</div>
-                    {issue.dismissed && (
-                      <div className="history-screen__item-status">
-                        Dismissed {issue.dismissed.until === 'forever' ? 'forever' : 'for 24h'}
-                      </div>
-                    )}
-                  </div>
-                  <button
-                    type="button"
-                    className="history-screen__delete-button"
-                    onClick={() => {
-                      void deleteFromHistory(issue.id);
-                    }}
-                    aria-label="Delete from history"
-                  >
-                    🗑️
-                  </button>
+      <ProtectedModeToggle />
+
+      <div className="history-screen__panel">
+        <div className="history-screen__header">
+          <h2 className="history-screen__title">History</h2>
+          <button
+            type="button"
+            className="history-screen__clear-button"
+            onClick={() => {
+              void clearAllHistory();
+            }}
+          >
+            Clear all
+          </button>
+        </div>
+
+        <div className="history-screen__list">
+          {history.map((issue) => (
+            <div key={issue.id} className="history-screen__item">
+              {getIcon(issue.type)}
+              <div className="history-screen__item-content">
+                <div className="history-screen__item-value">{issue.value}</div>
+                <div className="history-screen__item-timestamp">
+                  {formatTimestamp(issue.timestamp)}
                 </div>
-              ))}
+              </div>
+              <button
+                type="button"
+                className="history-screen__item-delete"
+                onClick={() => {
+                  void deleteFromHistory(issue.id);
+                }}
+                aria-label="Delete from history"
+              >
+                ×
+              </button>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

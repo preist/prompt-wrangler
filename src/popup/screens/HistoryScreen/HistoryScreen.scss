@@ -1,25 +1,24 @@
 @use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
 
 .history-screen {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow-y: auto;
+  padding-top: 80px;
 }
 
 .history-screen__empty {
+  @include panel;
+
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 100%;
   justify-content: center;
-  padding: 32px;
+  margin: 0 16px;
+  padding: 48px 32px;
   text-align: center;
-}
-
-.history-screen__empty-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
 }
 
 .history-screen__empty-title {
@@ -30,22 +29,42 @@
 }
 
 .history-screen__empty-description {
-  color: $color-gray-dark;
+  color: $color-text-muted;
   font-size: 14px;
 }
 
+.history-screen__panel {
+  @include panel;
+
+  display: flex;
+  flex-direction: column;
+  margin: 0 16px;
+  max-height: calc(100vh - 200px);
+  overflow: hidden;
+}
+
 .history-screen__header {
+  align-items: center;
+  background-color: $color-light;
   border-bottom: 1px solid $color-border;
   display: flex;
-  justify-content: flex-end;
+  flex-shrink: 0;
+  justify-content: space-between;
   padding: 12px 16px;
 }
 
+.history-screen__title {
+  color: $color-text-dark;
+  font-size: 16px;
+  font-weight: normal;
+  margin: 0;
+}
+
 .history-screen__clear-button {
-  background-color: $color-accent;
+  background-color: $color-gray-lightest;
   border: none;
-  border-radius: 6px;
-  color: $color-white;
+  border-radius: 20px;
+  color: $color-text;
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
@@ -53,50 +72,19 @@
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: #e64f08;
+    background-color: $color-gray-lighter;
   }
 }
 
 .history-screen__list {
   display: flex;
   flex-direction: column;
-}
-
-.history-screen__batch {
-  border-bottom: 1px solid $color-border;
-
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-.history-screen__batch-header {
-  align-items: center;
-  background-color: $color-gray-lightest;
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 16px;
-}
-
-.history-screen__batch-title {
-  color: $color-text-dark;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.history-screen__batch-count {
-  color: $color-gray-dark;
-  font-size: 12px;
-}
-
-.history-screen__batch-issues {
-  display: flex;
-  flex-direction: column;
+  overflow-y: auto;
 }
 
 .history-screen__item {
   align-items: center;
-  border-bottom: 1px solid $color-border-light;
+  border-bottom: 1px solid $color-border;
   display: flex;
   gap: 12px;
   padding: 12px 16px;
@@ -107,7 +95,9 @@
 }
 
 .history-screen__item-icon {
-  font-size: 24px;
+  flex-shrink: 0;
+  height: 28px;
+  width: 28px;
 }
 
 .history-screen__item-content {
@@ -115,36 +105,36 @@
   flex: 1;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .history-screen__item-value {
   color: $color-text-dark;
   font-size: 14px;
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .history-screen__item-timestamp {
-  color: $color-gray-dark;
+  color: $color-gray;
   font-size: 12px;
 }
 
-.history-screen__item-status {
-  color: $color-gray;
-  font-size: 11px;
-  font-style: italic;
-  margin-top: 4px;
-}
-
-.history-screen__delete-button {
+.history-screen__item-delete {
   background: none;
   border: none;
+  color: $color-gray;
   cursor: pointer;
-  font-size: 18px;
-  opacity: 0.6;
-  padding: 8px;
-  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1;
+  padding: 4px 8px;
+  transition: color 0.2s ease;
 
   &:hover {
-    opacity: 1;
+    color: $color-text-dark;
   }
 }
