@@ -3,6 +3,32 @@ import type { IssuesDetectedMessage } from '../types/messages';
 
 console.log('[Prompt Wrangler] Content script (isolated world) loaded');
 
+void (async () => {
+  try {
+    const result = await chrome.storage.local.get(['settings.dataTypes', 'settings.protectedMode']);
+
+    if (result['settings.dataTypes']) {
+      window.dispatchEvent(
+        new CustomEvent('prompt-wrangler-data-types-change', {
+          detail: { dataTypes: result['settings.dataTypes'] },
+        })
+      );
+      console.log('[Prompt Wrangler] Sent initial data types to injected script');
+    }
+
+    if (result['settings.protectedMode'] !== undefined) {
+      window.dispatchEvent(
+        new CustomEvent('prompt-wrangler-mode-change', {
+          detail: { enabled: result['settings.protectedMode'] },
+        })
+      );
+      console.log('[Prompt Wrangler] Sent initial protected mode to injected script');
+    }
+  } catch (error) {
+    console.error('[Prompt Wrangler] Failed to load initial settings:', error);
+  }
+})();
+
 // Listen for issues detected by the injected script
 window.addEventListener('prompt-wrangler-issues', (event: Event) => {
   const customEvent = event as CustomEvent<{ issues: DetectedIssue[] }>;

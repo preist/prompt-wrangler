@@ -42,18 +42,6 @@ window.addEventListener('prompt-wrangler-data-types-change', (event: Event) => {
   console.log('[Prompt Wrangler] Data types changed:', enabledDataTypes);
 });
 
-void (async () => {
-  try {
-    const result = await chrome.storage.local.get(['settings.dataTypes']);
-    if (result['settings.dataTypes']) {
-      enabledDataTypes = result['settings.dataTypes'] as typeof enabledDataTypes;
-      console.log('[Prompt Wrangler] Loaded data types from storage:', enabledDataTypes);
-    }
-  } catch (error) {
-    console.error('[Prompt Wrangler] Failed to load data types:', error);
-  }
-})();
-
 function generateId(): string {
   return `${Date.now().toString()}-${Math.random().toString(36).substring(2, 9)}`;
 }
