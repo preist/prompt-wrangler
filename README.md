@@ -25,9 +25,23 @@ npm run test             # Run tests
 ### Chrome Extension Setup
 
 1. Build and load in Chrome:
-   - Run `npm run build:watch` (auto-rebuilds on changes)
+   - Run `npm run build`
    - Open `chrome://extensions`
    - Enable "Developer mode"
    - Click "Load unpacked" → select `dist/` folder
 
-2. After code changes, click the refresh icon in `chrome://extensions`
+2. After code changes, rebuild and click the refresh icon in `chrome://extensions`
+
+## Design Previews
+
+### History View
+
+| Screenshot                                                                    |
+|-------------------------------------------------------------------------------|
+| <img width="780" src="design/01_history_view.png" alt="product screenshot" /> |
+
+### Settings View
+
+| Screenshot |
+|------------|
+| <img width="780" src="design/02_settings_view.png" alt="product screenshot" /> |
