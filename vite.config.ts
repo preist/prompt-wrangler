@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 import { resolve } from 'path';
 
 const isContentScript = process.env.BUILD_TARGET === 'content';
@@ -7,7 +8,7 @@ const isBackgroundScript = process.env.BUILD_TARGET === 'background';
 const isInjectedScript = process.env.BUILD_TARGET === 'injected';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), svgr()],
   build: {
     outDir: 'dist',
     emptyOutDir: !isContentScript && !isBackgroundScript && !isInjectedScript,

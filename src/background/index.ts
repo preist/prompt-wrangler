@@ -20,16 +20,10 @@ async function updateIcon() {
     const latestBatch = result['issues.latestBatch'] as string | null | undefined;
     const history = (result['issues.history'] as StoredIssue[] | undefined) ?? [];
 
-    console.log('[Prompt Wrangler] Icon update - protectedMode:', protectedMode);
-    console.log('[Prompt Wrangler] Icon update - latestBatch:', latestBatch);
-    console.log('[Prompt Wrangler] Icon update - history length:', history.length);
-
     const hasActiveIssues =
       latestBatch !== null &&
       latestBatch !== undefined &&
       history.some((issue) => issue.batchId === latestBatch);
-
-    console.log('[Prompt Wrangler] Icon update - hasActiveIssues:', hasActiveIssues);
 
     let iconPath: { 16: string; 32: string };
 

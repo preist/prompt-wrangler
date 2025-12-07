@@ -1,11 +1,2 @@
 /// <reference types="vite/client" />
-
-declare module '*.scss' {
-  const content: string;
-  export default content;
-}
-
-declare module '*.css' {
-  const content: string;
-  export default content;
-}
+/// <reference types="vite-plugin-svgr/client" />

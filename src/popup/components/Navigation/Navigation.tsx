@@ -1,3 +1,7 @@
+import ShieldIcon from './assets/shield.svg?react';
+import CalendarIcon from './assets/calendar.svg?react';
+import SettingsIcon from './assets/settings.svg?react';
+
 export type Screen = 'issues' | 'history' | 'settings';
 
 interface NavigationProps {
@@ -15,7 +19,7 @@ export default function Navigation({ current, onChange }: NavigationProps) {
           onChange('issues');
         }}
       >
-        <span className="navigation__icon">⚠️</span>
+        <ShieldIcon className="navigation__icon" />
         <span className="navigation__label">Issues</span>
       </button>
       <button
@@ -25,7 +29,7 @@ export default function Navigation({ current, onChange }: NavigationProps) {
           onChange('history');
         }}
       >
-        <span className="navigation__icon">📜</span>
+        <CalendarIcon className="navigation__icon" />
         <span className="navigation__label">History</span>
       </button>
       <button
@@ -35,7 +39,7 @@ export default function Navigation({ current, onChange }: NavigationProps) {
           onChange('settings');
         }}
       >
-        <span className="navigation__icon">⚙️</span>
+        <SettingsIcon className="navigation__icon" />
         <span className="navigation__label">Settings</span>
       </button>
     </nav>

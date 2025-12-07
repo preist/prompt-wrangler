@@ -11,12 +11,12 @@ function AppContent() {
 
   return (
     <div className="app">
+      <Navigation current={currentScreen} onChange={setCurrentScreen} />
       <div className="app__content">
         {currentScreen === 'issues' && <IssuesFoundScreen />}
         {currentScreen === 'history' && <HistoryScreen />}
         {currentScreen === 'settings' && <SettingsScreen />}
       </div>
-      <Navigation current={currentScreen} onChange={setCurrentScreen} />
     </div>
   );
 }
