@@ -36,18 +36,18 @@ npm run test             # Run tests
 
 ### Issues Found
 
-| Screenshot |
-|------------|
-| <img width="780" src="design/00_issues_found.png" alt="product screenshot" /> |
+| Screenshot                                                                  |
+|-----------------------------------------------------------------------------|
+| <img width="780" src="design/00_issues_tab.png" alt="product screenshot" /> |
 
 ### History View
 
-| Screenshot |
-|------------|
-| <img width="780" src="design/01_history_view.png" alt="product screenshot" /> |
+| Screenshot                                                                   |
+|------------------------------------------------------------------------------|
+| <img width="780" src="design/01_history_tab.png" alt="product screenshot" /> |
 
 ### Settings View
 
-| Screenshot |
-|------------|
-| <img width="780" src="design/02_settings_view.png" alt="product screenshot" /> |
+| Screenshot                                                                    |
+|-------------------------------------------------------------------------------|
+| <img width="780" src="design/02_settings_tab.png" alt="product screenshot" /> |
