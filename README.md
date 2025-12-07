@@ -34,10 +34,16 @@ npm run test             # Run tests
 
 ## Design Previews
 
+### Issues Found
+
+| Screenshot |
+|------------|
+| <img width="780" src="design/00_issues_found.png" alt="product screenshot" /> |
+
 ### History View
 
-| Screenshot                                                                    |
-|-------------------------------------------------------------------------------|
+| Screenshot |
+|------------|
 | <img width="780" src="design/01_history_view.png" alt="product screenshot" /> |
 
 ### Settings View
