@@ -52,8 +52,6 @@ export default function HistoryScreen() {
         return '💳';
       case 'ssn':
         return '🆔';
-      case 'address':
-        return '📍';
     }
   };
 

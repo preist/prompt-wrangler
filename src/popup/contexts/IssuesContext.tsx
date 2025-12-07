@@ -4,7 +4,7 @@ export type DismissDuration = '24h' | 'forever';
 
 export interface Issue {
   id: string;
-  type: 'email' | 'phone' | 'creditCard' | 'ssn' | 'address';
+  type: 'email' | 'phone' | 'creditCard' | 'ssn';
   value: string;
   timestamp: number;
   batchId: string;

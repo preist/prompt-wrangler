@@ -54,7 +54,7 @@ export default function SettingsScreen() {
           onChange={() => toggleDataType('phone')}
         />
         <Toggle
-          label="Credit Card Information"
+          label="Credit Card Numbers"
           checked={enabledDataTypes.creditCard}
           disabled={!protectedMode}
           onChange={() => toggleDataType('creditCard')}
@@ -64,12 +64,6 @@ export default function SettingsScreen() {
           checked={enabledDataTypes.ssn}
           disabled={!protectedMode}
           onChange={() => toggleDataType('ssn')}
-        />
-        <Toggle
-          label="Addresses"
-          checked={enabledDataTypes.address}
-          disabled={!protectedMode}
-          onChange={() => toggleDataType('address')}
         />
       </div>
     </div>

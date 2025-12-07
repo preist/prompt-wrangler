@@ -6,6 +6,10 @@ import {
   EMAIL_PLACEHOLDER,
   PHONE_PATTERNS,
   PHONE_PLACEHOLDER,
+  CREDIT_CARD_PATTERN,
+  CREDIT_CARD_PLACEHOLDER,
+  SSN_PATTERN,
+  SSN_PLACEHOLDER,
 } from '../utils/detectors/patterns';
 
 interface DetectedIssue {
@@ -19,19 +23,46 @@ console.log('[Prompt Wrangler] Injected script (main world) loaded');
 
 const originalFetch = window.fetch;
 let protectedModeEnabled = true;
+let enabledDataTypes = {
+  email: true,
+  phone: true,
+  creditCard: true,
+  ssn: true,
+};
 
-// Listen for protected mode changes from content script
 window.addEventListener('prompt-wrangler-mode-change', (event: Event) => {
   const customEvent = event as CustomEvent<{ enabled: boolean }>;
   protectedModeEnabled = customEvent.detail.enabled;
   console.log('[Prompt Wrangler] Protected mode changed:', protectedModeEnabled);
 });
 
+window.addEventListener('prompt-wrangler-data-types-change', (event: Event) => {
+  const customEvent = event as CustomEvent<{ dataTypes: Record<string, boolean> }>;
+  enabledDataTypes = customEvent.detail.dataTypes as typeof enabledDataTypes;
+  console.log('[Prompt Wrangler] Data types changed:', enabledDataTypes);
+});
+
+void (async () => {
+  try {
+    const result = await chrome.storage.local.get(['settings.dataTypes']);
+    if (result['settings.dataTypes']) {
+      enabledDataTypes = result['settings.dataTypes'] as typeof enabledDataTypes;
+      console.log('[Prompt Wrangler] Loaded data types from storage:', enabledDataTypes);
+    }
+  } catch (error) {
+    console.error('[Prompt Wrangler] Failed to load data types:', error);
+  }
+})();
+
 function generateId(): string {
   return `${Date.now().toString()}-${Math.random().toString(36).substring(2, 9)}`;
 }
 
 function detectEmails(text: string): DetectedIssue[] {
+  if (!enabledDataTypes.email) {
+    return [];
+  }
+
   const matches = text.matchAll(EMAIL_PATTERN);
   const issues: DetectedIssue[] = [];
 
@@ -50,6 +81,10 @@ function detectEmails(text: string): DetectedIssue[] {
 }
 
 function detectPhones(text: string): DetectedIssue[] {
+  if (!enabledDataTypes.phone) {
+    return [];
+  }
+
   const issues: DetectedIssue[] = [];
   const seen = new Set<string>();
 
@@ -71,10 +106,16 @@ function detectPhones(text: string): DetectedIssue[] {
 }
 
 function anonymizeEmails(text: string): string {
+  if (!enabledDataTypes.email) {
+    return text;
+  }
   return text.replace(EMAIL_PATTERN, EMAIL_PLACEHOLDER);
 }
 
 function anonymizePhones(text: string): string {
+  if (!enabledDataTypes.phone) {
+    return text;
+  }
   let result = text;
   for (const pattern of PHONE_PATTERNS) {
     result = result.replace(pattern, PHONE_PLACEHOLDER);
@@ -82,22 +123,96 @@ function anonymizePhones(text: string): string {
   return result;
 }
 
+function detectCreditCards(text: string): DetectedIssue[] {
+  if (!enabledDataTypes.creditCard) {
+    return [];
+  }
+
+  const matches = text.matchAll(CREDIT_CARD_PATTERN);
+  const issues: DetectedIssue[] = [];
+
+  for (const match of matches) {
+    if (match[0]) {
+      issues.push({
+        id: generateId(),
+        type: 'creditCard',
+        value: match[0],
+        timestamp: Date.now(),
+      });
+    }
+  }
+
+  return issues;
+}
+
+function anonymizeCreditCards(text: string): string {
+  if (!enabledDataTypes.creditCard) {
+    return text;
+  }
+  return text.replace(CREDIT_CARD_PATTERN, CREDIT_CARD_PLACEHOLDER);
+}
+
+function detectSSN(text: string): DetectedIssue[] {
+  if (!enabledDataTypes.ssn) {
+    return [];
+  }
+
+  const matches = text.matchAll(SSN_PATTERN);
+  const issues: DetectedIssue[] = [];
+
+  for (const match of matches) {
+    if (match[0]) {
+      issues.push({
+        id: generateId(),
+        type: 'ssn',
+        value: match[0],
+        timestamp: Date.now(),
+      });
+    }
+  }
+
+  return issues;
+}
+
+function anonymizeSSN(text: string): string {
+  if (!enabledDataTypes.ssn) {
+    return text;
+  }
+  return text.replace(SSN_PATTERN, SSN_PLACEHOLDER);
+}
+
 function scanAndAnonymize(obj: unknown): { anonymized: unknown; issues: DetectedIssue[] } {
   const allIssues: DetectedIssue[] = [];
 
   function processValue(value: unknown): unknown {
     if (typeof value === 'string') {
-      const emailIssues = detectEmails(value);
-      const phoneIssues = detectPhones(value);
-      const hasIssues = emailIssues.length > 0 || phoneIssues.length > 0;
+      let currentText = value;
 
-      if (hasIssues) {
-        allIssues.push(...emailIssues, ...phoneIssues);
-        let anonymized = anonymizeEmails(value);
-        anonymized = anonymizePhones(anonymized);
-        return anonymized;
+      const emailIssues = detectEmails(currentText);
+      if (emailIssues.length > 0) {
+        allIssues.push(...emailIssues);
+        currentText = anonymizeEmails(currentText);
       }
-      return value;
+
+      const creditCardIssues = detectCreditCards(currentText);
+      if (creditCardIssues.length > 0) {
+        allIssues.push(...creditCardIssues);
+        currentText = anonymizeCreditCards(currentText);
+      }
+
+      const ssnIssues = detectSSN(currentText);
+      if (ssnIssues.length > 0) {
+        allIssues.push(...ssnIssues);
+        currentText = anonymizeSSN(currentText);
+      }
+
+      const phoneIssues = detectPhones(currentText);
+      if (phoneIssues.length > 0) {
+        allIssues.push(...phoneIssues);
+        currentText = anonymizePhones(currentText);
+      }
+
+      return currentText;
     }
 
     if (Array.isArray(value)) {

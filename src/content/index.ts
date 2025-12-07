@@ -25,20 +25,28 @@ window.addEventListener('prompt-wrangler-issues', (event: Event) => {
   })();
 });
 
-// Listen for messages from popup (e.g., toggle protected mode)
 chrome.runtime.onMessage.addListener(
   (
-    message: { type: string; enabled?: boolean },
+    message: { type: string; enabled?: boolean; dataTypes?: Record<string, boolean> },
     _sender: chrome.runtime.MessageSender,
     _sendResponse: (response?: unknown) => void
   ) => {
     if (message.type === 'TOGGLE_PROTECTED_MODE') {
       console.log('[Prompt Wrangler] Protected mode toggled:', message.enabled);
 
-      // Forward to injected script via custom event
       window.dispatchEvent(
         new CustomEvent('prompt-wrangler-mode-change', {
           detail: { enabled: message.enabled },
+        })
+      );
+    }
+
+    if (message.type === 'UPDATE_DATA_TYPES') {
+      console.log('[Prompt Wrangler] Data types updated:', message.dataTypes);
+
+      window.dispatchEvent(
+        new CustomEvent('prompt-wrangler-data-types-change', {
+          detail: { dataTypes: message.dataTypes },
         })
       );
     }

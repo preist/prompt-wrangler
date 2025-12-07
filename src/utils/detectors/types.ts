@@ -1,4 +1,4 @@
-export type PiiType = 'email' | 'phone' | 'ssn' | 'credit_card';
+export type PiiType = 'email' | 'phone' | 'ssn' | 'creditCard';
 
 export interface DetectedIssue {
   id: string;

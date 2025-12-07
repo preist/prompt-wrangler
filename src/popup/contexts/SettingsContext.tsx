@@ -10,7 +10,6 @@ export interface EnabledDataTypes {
   phone: boolean;
   creditCard: boolean;
   ssn: boolean;
-  address: boolean;
 }
 
 export interface SettingsContextValue {
@@ -34,8 +33,7 @@ const DEFAULT_SETTINGS = {
     email: true,
     phone: true,
     creditCard: true,
-    ssn: false,
-    address: false,
+    ssn: true,
   },
 };
 
@@ -71,21 +69,40 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     const newValue = !protectedMode;
     setProtectedMode(newValue);
 
-    // If turning on Protected Mode, ensure at least ChatGPT is enabled
-    let updatedPlatforms = enabledPlatforms;
-    if (newValue && !enabledPlatforms.chatgpt && !enabledPlatforms.claude) {
-      updatedPlatforms = {
-        ...enabledPlatforms,
-        chatgpt: true,
-      };
-      setEnabledPlatforms(updatedPlatforms);
-      await chrome.storage.local.set({ 'settings.platforms': updatedPlatforms });
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    if (newValue) {
+      if (!enabledPlatforms.chatgpt && !enabledPlatforms.claude) {
+        const updatedPlatforms = {
+          ...enabledPlatforms,
+          chatgpt: true,
+        };
+        setEnabledPlatforms(updatedPlatforms);
+        await chrome.storage.local.set({ 'settings.platforms': updatedPlatforms });
+      }
+
+      const anyDataTypeEnabled = Object.values(enabledDataTypes).some((enabled) => enabled);
+      if (!anyDataTypeEnabled) {
+        const updatedDataTypes = {
+          email: true,
+          phone: true,
+          creditCard: true,
+          ssn: true,
+        };
+        setEnabledDataTypes(updatedDataTypes);
+        await chrome.storage.local.set({ 'settings.dataTypes': updatedDataTypes });
+
+        if (tab?.id) {
+          void chrome.tabs.sendMessage(tab.id, {
+            type: 'UPDATE_DATA_TYPES',
+            dataTypes: updatedDataTypes,
+          });
+        }
+      }
     }
 
     await chrome.storage.local.set({ 'settings.protectedMode': newValue });
 
-    // Notify content script
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (tab?.id) {
       void chrome.tabs.sendMessage(tab.id, {
         type: 'TOGGLE_PROTECTED_MODE',
@@ -125,6 +142,27 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     };
     setEnabledDataTypes(newDataTypes);
     await chrome.storage.local.set({ 'settings.dataTypes': newDataTypes });
+
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tab?.id) {
+      void chrome.tabs.sendMessage(tab.id, {
+        type: 'UPDATE_DATA_TYPES',
+        dataTypes: newDataTypes,
+      });
+    }
+
+    const anyDataTypeEnabled = Object.values(newDataTypes).some((enabled) => enabled);
+    if (!anyDataTypeEnabled && protectedMode) {
+      setProtectedMode(false);
+      await chrome.storage.local.set({ 'settings.protectedMode': false });
+
+      if (tab?.id) {
+        void chrome.tabs.sendMessage(tab.id, {
+          type: 'TOGGLE_PROTECTED_MODE',
+          enabled: false,
+        });
+      }
+    }
   };
 
   return (
