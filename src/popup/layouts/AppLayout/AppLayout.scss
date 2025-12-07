@@ -1,5 +1,7 @@
+@use '../../../styles/variables' as *;
+
 .app {
-  background-color: #fbfaf2;
+  background-color: $color-bg-main;
   background-image: url('./assets/background.png');
   background-position: center bottom;
   background-repeat: no-repeat;

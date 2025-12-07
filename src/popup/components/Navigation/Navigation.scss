@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as *;
+
 .navigation {
   align-items: flex-end;
   display: flex;
@@ -8,7 +10,7 @@
 
 .navigation__button {
   align-items: center;
-  background-color: #ffffff;
+  background-color: $color-white;
   border: none;
   border-radius: 50%;
   box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
@@ -21,17 +23,17 @@
   width: 48px;
 
   &:hover {
-    background-color: #ffffff;
+    background-color: $color-white;
     box-shadow: 0 4px 12px rgb(0 0 0 / 12%);
     transform: translateY(-2px);
   }
 
   &--active {
-    background-color: #540907;
+    background-color: $color-primary;
     box-shadow: 0 4px 16px rgb(84 9 7 / 25%);
 
     &:hover {
-      background-color: #540907;
+      background-color: $color-primary;
       box-shadow: 0 6px 20px rgb(84 9 7 / 30%);
       transform: translateY(-2px);
     }
@@ -48,11 +50,11 @@
   }
 
   .navigation__button--active & {
-    fill: #ffffff;
+    fill: $color-white;
   }
 
   .navigation__button:not(.navigation__button--active) & {
-    fill: #540907;
+    fill: $color-primary;
   }
 }
 

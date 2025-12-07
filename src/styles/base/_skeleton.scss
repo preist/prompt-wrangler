@@ -79,7 +79,7 @@ button,
   background-color: $color-primary;
   border: $border-width solid $color-primary;
   border-radius: $border-radius;
-  color: #ffffff;
+  color: $color-white;
   cursor: pointer;
   display: inline-block;
   font-family: inherit;
@@ -123,7 +123,7 @@ input[type='password'],
 input[type='search'],
 textarea,
 select {
-  background-color: #ffffff;
+  background-color: $color-white;
   border: $border-width solid $border-color;
   border-radius: $border-radius;
   color: $color-text;

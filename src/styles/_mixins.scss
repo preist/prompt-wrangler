@@ -1,45 +1,10 @@
 @use 'sass:color';
 @use 'variables' as *;
 
-@mixin flex-center {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-
-@mixin flex-between {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-}
-
-@mixin truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-@mixin card {
-  background: $color-light;
-  border: $border-width solid $border-color;
-  border-radius: $border-radius;
-  box-shadow: $shadow-sm;
-  padding: $spacing-md;
-}
-
-@mixin focus-ring {
-  outline: 2px solid $color-primary;
-  outline-offset: 2px;
-}
-
-@mixin visually-hidden {
-  border-width: 0;
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
+@mixin panel {
+  background-color: $color-bg-card;
+  border-radius: 10px;
+  box-shadow:
+    0 1px 3px rgb(0 0 0 / 6%),
+    0 1px 2px rgb(0 0 0 / 4%);
 }

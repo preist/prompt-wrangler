@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as *;
+
 .settings-screen {
   display: flex;
   flex-direction: column;
@@ -6,7 +8,7 @@
 }
 
 .settings-screen__section {
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid $color-border;
 
   &:last-child {
     border-bottom: none;
@@ -14,7 +16,7 @@
 }
 
 .settings-screen__heading {
-  color: #666666;
+  color: $color-gray-dark;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.5px;
