@@ -28,6 +28,10 @@ interface AllowlistItem {
 
 console.log('[Prompt Wrangler] Injected script (main world) loaded');
 
+// Detect which site we're on
+const SITE = window.location.hostname.includes('claude.ai') ? 'claude' : 'chatgpt';
+console.log('[Prompt Wrangler] Detected site:', SITE);
+
 const originalFetch = window.fetch;
 let protectedModeEnabled = true;
 let enabledDataTypes = {
@@ -206,35 +210,57 @@ function anonymizeSSN(text: string): string {
 function scanAndAnonymize(obj: unknown): { anonymized: unknown; issues: DetectedIssue[] } {
   const allIssues: DetectedIssue[] = [];
 
-  function processValue(value: unknown): unknown {
+  // Fields that should never be scanned/modified (IDs, UUIDs, etc.)
+  const SKIP_FIELDS = new Set([
+    'parent_message_uuid',
+    'prev_message_uuid',
+    'message_uuid',
+    'conversation_uuid',
+    'id',
+    'uuid',
+    'organization_uuid',
+  ]);
+
+  function processValue(value: unknown, key?: string): unknown {
+    // Skip processing for UUID/ID fields
+    if (key && SKIP_FIELDS.has(key)) {
+      return value;
+    }
+
     if (typeof value === 'string') {
       let currentText = value;
+      let modified = false;
 
       const emailIssues = detectEmails(currentText);
       if (emailIssues.length > 0) {
         allIssues.push(...emailIssues);
         currentText = anonymizeEmails(currentText);
+        modified = true;
       }
 
       const creditCardIssues = detectCreditCards(currentText);
       if (creditCardIssues.length > 0) {
         allIssues.push(...creditCardIssues);
         currentText = anonymizeCreditCards(currentText);
+        modified = true;
       }
 
       const ssnIssues = detectSSN(currentText);
       if (ssnIssues.length > 0) {
         allIssues.push(...ssnIssues);
         currentText = anonymizeSSN(currentText);
+        modified = true;
       }
 
       const phoneIssues = detectPhones(currentText);
       if (phoneIssues.length > 0) {
         allIssues.push(...phoneIssues);
         currentText = anonymizePhones(currentText);
+        modified = true;
       }
 
-      return currentText;
+      // Only return modified text if something changed, otherwise return original
+      return modified ? currentText : value;
     }
 
     if (Array.isArray(value)) {
@@ -244,7 +270,7 @@ function scanAndAnonymize(obj: unknown): { anonymized: unknown; issues: Detected
     if (value !== null && typeof value === 'object') {
       const newObj: Record<string, unknown> = {};
       for (const [key, val] of Object.entries(value)) {
-        newObj[key] = processValue(val);
+        newObj[key] = processValue(val, key);
       }
       return newObj;
     }
@@ -254,6 +280,31 @@ function scanAndAnonymize(obj: unknown): { anonymized: unknown; issues: Detected
 
   const anonymized = processValue(obj);
   return { anonymized, issues: allIssues };
+}
+
+function isChatGPTAPI(url: string): boolean {
+  return url.includes('/backend-api/');
+}
+
+function isClaudeAPI(url: string): boolean {
+  return (
+    url.includes('claude.ai/api/organizations/') &&
+    url.includes('/chat_conversations/') &&
+    (url.includes('/completion') || url.includes('/chat_message'))
+  );
+}
+
+function shouldScanRequest(url: string, init?: RequestInit): boolean {
+  if (!init?.method || init.method !== 'POST') return false;
+  if (!init.body || typeof init.body !== 'string') return false;
+
+  if (SITE === 'chatgpt') {
+    return isChatGPTAPI(url);
+  } else if (SITE === 'claude') {
+    return isClaudeAPI(url);
+  }
+
+  return false;
 }
 
 window.fetch = async function (input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
@@ -267,20 +318,18 @@ window.fetch = async function (input: RequestInfo | URL, init?: RequestInit): Pr
     return await originalFetch(input, init);
   }
 
-  if (
-    url.includes('/backend-api/') &&
-    init?.method === 'POST' &&
-    init.body &&
-    typeof init.body === 'string'
-  ) {
-    console.log('[Prompt Wrangler] ChatGPT API request detected, scanning...');
+  if (shouldScanRequest(url, init)) {
+    console.log(`[Prompt Wrangler] ${SITE === 'chatgpt' ? 'ChatGPT' : 'Claude'} API request detected, scanning...`);
 
     try {
-      const payload = JSON.parse(init.body) as unknown;
+      const payload = JSON.parse(init!.body as string) as unknown;
+      console.log('[Prompt Wrangler] Original payload:', payload);
+
       const { anonymized, issues } = scanAndAnonymize(payload);
 
       if (issues.length > 0) {
         console.log('[Prompt Wrangler] Detected issues:', issues);
+        console.log('[Prompt Wrangler] Anonymized payload:', anonymized);
 
         // Send to content script via custom event
         window.dispatchEvent(
