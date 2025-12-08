@@ -10,39 +10,13 @@ interface StoredIssue {
 
 async function updateIcon() {
   try {
-    const result = await chrome.storage.local.get([
-      'settings.protectedMode',
-      'issues.latestBatch',
-      'issues.history',
-    ]);
-
+    const result = await chrome.storage.local.get(['settings.protectedMode']);
     const protectedMode = result['settings.protectedMode'] as boolean | undefined;
-    const latestBatch = result['issues.latestBatch'] as string | null | undefined;
-    const history = (result['issues.history'] as StoredIssue[] | undefined) ?? [];
 
-    const hasActiveIssues =
-      latestBatch !== null &&
-      latestBatch !== undefined &&
-      history.some((issue) => issue.batchId === latestBatch);
-
-    let iconPath: { 16: string; 32: string };
-
-    if (protectedMode === false) {
-      iconPath = {
-        16: 'icons/icon-16-off.png',
-        32: 'icons/icon-32-off.png',
-      };
-    } else if (hasActiveIssues) {
-      iconPath = {
-        16: 'icons/icon-16-alert.png',
-        32: 'icons/icon-32-alert.png',
-      };
-    } else {
-      iconPath = {
-        16: 'icons/icon-16.png',
-        32: 'icons/icon-32.png',
-      };
-    }
+    const iconPath = {
+      16: protectedMode === false ? 'icons/icon-16-off.png' : 'icons/icon-16.png',
+      32: protectedMode === false ? 'icons/icon-32-off.png' : 'icons/icon-32.png',
+    };
 
     await chrome.action.setIcon({ path: iconPath });
     console.log('[Prompt Wrangler] Icon updated:', iconPath);
@@ -53,13 +27,8 @@ async function updateIcon() {
 
 // Listen for storage changes to update icon
 chrome.storage.onChanged.addListener((changes, areaName) => {
-  if (areaName === 'local') {
-    const relevantKeys = ['settings.protectedMode', 'issues.latestBatch', 'issues.history'];
-    const hasRelevantChanges = relevantKeys.some((key) => key in changes);
-
-    if (hasRelevantChanges) {
-      void updateIcon();
-    }
+  if (areaName === 'local' && changes['settings.protectedMode']) {
+    void updateIcon();
   }
 });
 
@@ -118,9 +87,6 @@ chrome.runtime.onMessage.addListener(
           } catch (notificationError) {
             console.error('[Prompt Wrangler] Failed to create notification:', notificationError);
           }
-
-          // Update icon to show alert
-          void updateIcon();
 
           // Try to notify popup if it's open (don't wait for response)
           chrome.runtime.sendMessage(
