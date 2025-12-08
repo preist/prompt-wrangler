@@ -1,4 +1,4 @@
-import type { DetectedIssue, DismissedItem } from './detectors/types';
+import type { DetectedIssue, DismissedItem } from '@lib/detectors/types';
 
 const STORAGE_KEYS = {
   ISSUES: 'detected_issues',

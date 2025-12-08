@@ -19,6 +19,13 @@ interface DetectedIssue {
   timestamp: number;
 }
 
+interface AllowlistItem {
+  value: string;
+  type: 'email' | 'phone' | 'creditCard' | 'ssn';
+  expiresAt: number | 'never';
+  addedAt: number;
+}
+
 console.log('[Prompt Wrangler] Injected script (main world) loaded');
 
 const originalFetch = window.fetch;
@@ -29,6 +36,7 @@ let enabledDataTypes = {
   creditCard: true,
   ssn: true,
 };
+let allowlist: AllowlistItem[] = [];
 
 window.addEventListener('prompt-wrangler-mode-change', (event: Event) => {
   const customEvent = event as CustomEvent<{ enabled: boolean }>;
@@ -42,8 +50,26 @@ window.addEventListener('prompt-wrangler-data-types-change', (event: Event) => {
   console.log('[Prompt Wrangler] Data types changed:', enabledDataTypes);
 });
 
+window.addEventListener('prompt-wrangler-allowlist-change', (event: Event) => {
+  const customEvent = event as CustomEvent<{ allowlist: AllowlistItem[] }>;
+  allowlist = customEvent.detail.allowlist;
+  console.log('[Prompt Wrangler] Allowlist changed:', allowlist);
+});
+
 function generateId(): string {
   return `${Date.now().toString()}-${Math.random().toString(36).substring(2, 9)}`;
+}
+
+function isAllowlisted(value: string, type: string): boolean {
+  const now = Date.now();
+  const normalizedValue = value.toLowerCase();
+
+  return allowlist.some((item) => {
+    if (item.type !== type) return false;
+    if (item.value.toLowerCase() !== normalizedValue) return false;
+    if (item.expiresAt === 'never') return true;
+    return item.expiresAt > now;
+  });
 }
 
 function detectEmails(text: string): DetectedIssue[] {
@@ -55,7 +81,7 @@ function detectEmails(text: string): DetectedIssue[] {
   const issues: DetectedIssue[] = [];
 
   for (const match of matches) {
-    if (match[0]) {
+    if (match[0] && !isAllowlisted(match[0], 'email')) {
       issues.push({
         id: generateId(),
         type: 'email',
@@ -78,7 +104,7 @@ function detectPhones(text: string): DetectedIssue[] {
 
   for (const pattern of PHONE_PATTERNS) {
     for (const match of text.matchAll(pattern)) {
-      if (match[0] && !seen.has(match[0])) {
+      if (match[0] && !seen.has(match[0]) && !isAllowlisted(match[0], 'phone')) {
         seen.add(match[0]);
         issues.push({
           id: generateId(),
@@ -97,7 +123,9 @@ function anonymizeEmails(text: string): string {
   if (!enabledDataTypes.email) {
     return text;
   }
-  return text.replace(EMAIL_PATTERN, EMAIL_PLACEHOLDER);
+  return text.replace(EMAIL_PATTERN, (match) => {
+    return isAllowlisted(match, 'email') ? match : EMAIL_PLACEHOLDER;
+  });
 }
 
 function anonymizePhones(text: string): string {
@@ -106,7 +134,9 @@ function anonymizePhones(text: string): string {
   }
   let result = text;
   for (const pattern of PHONE_PATTERNS) {
-    result = result.replace(pattern, PHONE_PLACEHOLDER);
+    result = result.replace(pattern, (match) => {
+      return isAllowlisted(match, 'phone') ? match : PHONE_PLACEHOLDER;
+    });
   }
   return result;
 }
@@ -120,7 +150,7 @@ function detectCreditCards(text: string): DetectedIssue[] {
   const issues: DetectedIssue[] = [];
 
   for (const match of matches) {
-    if (match[0]) {
+    if (match[0] && !isAllowlisted(match[0], 'creditCard')) {
       issues.push({
         id: generateId(),
         type: 'creditCard',
@@ -137,7 +167,9 @@ function anonymizeCreditCards(text: string): string {
   if (!enabledDataTypes.creditCard) {
     return text;
   }
-  return text.replace(CREDIT_CARD_PATTERN, CREDIT_CARD_PLACEHOLDER);
+  return text.replace(CREDIT_CARD_PATTERN, (match) => {
+    return isAllowlisted(match, 'creditCard') ? match : CREDIT_CARD_PLACEHOLDER;
+  });
 }
 
 function detectSSN(text: string): DetectedIssue[] {
@@ -149,7 +181,7 @@ function detectSSN(text: string): DetectedIssue[] {
   const issues: DetectedIssue[] = [];
 
   for (const match of matches) {
-    if (match[0]) {
+    if (match[0] && !isAllowlisted(match[0], 'ssn')) {
       issues.push({
         id: generateId(),
         type: 'ssn',
@@ -166,7 +198,9 @@ function anonymizeSSN(text: string): string {
   if (!enabledDataTypes.ssn) {
     return text;
   }
-  return text.replace(SSN_PATTERN, SSN_PLACEHOLDER);
+  return text.replace(SSN_PATTERN, (match) => {
+    return isAllowlisted(match, 'ssn') ? match : SSN_PLACEHOLDER;
+  });
 }
 
 function scanAndAnonymize(obj: unknown): { anonymized: unknown; issues: DetectedIssue[] } {

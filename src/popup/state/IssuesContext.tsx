@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect, type ReactNode } from 'react';
+import { addToAllowlist, cleanExpiredAllowlistItems } from '@lib/storage/allowlist';
 
 export type DismissDuration = '24h' | 'forever';
 
@@ -90,15 +91,19 @@ export function IssuesProvider(props: IssuesProviderProps) {
 
     setHistory(filtered);
     void chrome.storage.local.set({ 'issues.history': filtered });
+    void cleanExpiredAllowlistItems();
   };
 
   const dismissIssue = async (id: string, duration: DismissDuration) => {
+    const issue = history.find((i) => i.id === id);
+    if (!issue) return;
+
+    await addToAllowlist(issue.value, issue.type, duration);
+
     const until: number | 'forever' =
       duration === 'forever' ? 'forever' : Date.now() + 24 * 60 * 60 * 1000;
 
-    const updated: Issue[] = history.map((issue) =>
-      issue.id === id ? { ...issue, dismissed: { until } } : issue
-    );
+    const updated: Issue[] = history.map((i) => (i.id === id ? { ...i, dismissed: { until } } : i));
 
     setHistory(updated);
     await chrome.storage.local.set({ 'issues.history': updated });

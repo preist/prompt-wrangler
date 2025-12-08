@@ -1,11 +1,16 @@
 import type { DetectedIssue } from '@lib/detectors/types';
 import type { IssuesDetectedMessage } from '@shared/messages';
+import type { AllowlistItem } from '@lib/storage/allowlist';
 
 console.log('[Prompt Wrangler] Content script (isolated world) loaded');
 
 void (async () => {
   try {
-    const result = await chrome.storage.local.get(['settings.dataTypes', 'settings.protectedMode']);
+    const result = await chrome.storage.local.get([
+      'settings.dataTypes',
+      'settings.protectedMode',
+      'allowlist',
+    ]);
 
     if (result['settings.dataTypes']) {
       window.dispatchEvent(
@@ -23,6 +28,15 @@ void (async () => {
         })
       );
       console.log('[Prompt Wrangler] Sent initial protected mode to injected script');
+    }
+
+    if (result.allowlist) {
+      window.dispatchEvent(
+        new CustomEvent('prompt-wrangler-allowlist-change', {
+          detail: { allowlist: result.allowlist as AllowlistItem[] },
+        })
+      );
+      console.log('[Prompt Wrangler] Sent initial allowlist to injected script');
     }
   } catch (error) {
     console.error('[Prompt Wrangler] Failed to load initial settings:', error);
@@ -78,3 +92,15 @@ chrome.runtime.onMessage.addListener(
     }
   }
 );
+
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName === 'local' && changes.allowlist) {
+    const newAllowlist = changes.allowlist.newValue as AllowlistItem[] | undefined;
+    window.dispatchEvent(
+      new CustomEvent('prompt-wrangler-allowlist-change', {
+        detail: { allowlist: newAllowlist ?? [] },
+      })
+    );
+    console.log('[Prompt Wrangler] Allowlist changed, notified injected script');
+  }
+});
