@@ -1,6 +1,8 @@
 import { useSettings } from '@popup/hooks/useSettings';
 import { Toggle } from '@popup/components/Toggle/Toggle';
 import { ProtectedModeToggle } from '@popup/components/ProtectedModeToggle/ProtectedModeToggle';
+import { SettingsSection } from '@popup/components/SettingsSection/SettingsSection';
+import { SettingsItem } from '@popup/components/SettingsItem/SettingsItem';
 
 export function SettingsScreen() {
   const {
@@ -43,75 +45,61 @@ export function SettingsScreen() {
         </div>
 
         <div className="settings-screen__content">
-          <div className="settings-screen__section">
-            <div className="settings-screen__item">
-              <div className="settings-screen__item-content">
-                <div className="settings-screen__item-title">ChatGPT</div>
-                <div className="settings-screen__item-description">Enable for ChatGPT website</div>
-              </div>
+          <SettingsSection>
+            <SettingsItem title="ChatGPT" description="Enable for ChatGPT website">
               <Toggle
                 label=""
                 checked={enabledPlatforms.chatgpt}
                 disabled={!protectedMode}
                 onChange={() => togglePlatform('chatgpt')}
               />
-            </div>
+            </SettingsItem>
 
-            <div className="settings-screen__item">
-              <div className="settings-screen__item-content">
-                <div className="settings-screen__item-title">Claude</div>
-                <div className="settings-screen__item-description">Enable for Claude website</div>
-              </div>
+            <SettingsItem title="Claude" description="Enable for Claude website">
               <div className="settings-screen__coming-soon">Coming Soon</div>
-            </div>
-          </div>
+            </SettingsItem>
+          </SettingsSection>
 
-          <div className="settings-screen__section">
-            <h3 className="settings-screen__section-title">Private data</h3>
-            <div className="settings-screen__section-description">
-              Select which types of data should be protected
-            </div>
-
-            <div className="settings-screen__item">
-              <div className="settings-screen__item-title">Email addresses</div>
+          <SettingsSection
+            title="Private data"
+            description="Select which types of data should be protected"
+          >
+            <SettingsItem title="Email addresses">
               <Toggle
                 label=""
                 checked={enabledDataTypes.email}
                 disabled={!protectedMode}
                 onChange={() => toggleDataType('email')}
               />
-            </div>
+            </SettingsItem>
 
-            <div className="settings-screen__item">
-              <div className="settings-screen__item-title">Phone Numbers</div>
+            <SettingsItem title="Phone Numbers">
               <Toggle
                 label=""
                 checked={enabledDataTypes.phone}
                 disabled={!protectedMode}
                 onChange={() => toggleDataType('phone')}
               />
-            </div>
+            </SettingsItem>
 
-            <div className="settings-screen__item">
-              <div className="settings-screen__item-title">Credit Card Information</div>
+            <SettingsItem title="Credit Card Information">
               <Toggle
                 label=""
                 checked={enabledDataTypes.creditCard}
                 disabled={!protectedMode}
                 onChange={() => toggleDataType('creditCard')}
               />
-            </div>
+            </SettingsItem>
 
-            <div className="settings-screen__item">
-              <div className="settings-screen__item-title">Social Security Numbers</div>
+            <SettingsItem title="Social Security Numbers">
               <Toggle
                 label=""
                 checked={enabledDataTypes.ssn}
                 disabled={!protectedMode}
                 onChange={() => toggleDataType('ssn')}
               />
-            </div>
-          </div>
+            </SettingsItem>
+          </SettingsSection>
         </div>
       </div>
     </div>

@@ -1,34 +1,7 @@
 import { useIssues } from '@popup/hooks/useIssues';
 import { ProtectedModeToggle } from '@popup/components/ProtectedModeToggle/ProtectedModeToggle';
-import EmailIcon from '@popup/components/IssueListItem/assets/email.svg?react';
-import PhoneIcon from '@popup/components/IssueListItem/assets/phone.svg?react';
-import CreditCardIcon from '@popup/components/IssueListItem/assets/credit_card.svg?react';
-import SsnIcon from '@popup/components/IssueListItem/assets/ssn.svg?react';
-
-const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
-  email: EmailIcon,
-  phone: PhoneIcon,
-  creditCard: CreditCardIcon,
-  ssn: SsnIcon,
-};
-
-function getIcon(type: string) {
-  const IconComponent = ICON_MAP[type];
-  if (!IconComponent) return null;
-  return <IconComponent className="history-screen__item-icon" />;
-}
-
-function formatTimestamp(timestamp: number) {
-  return new Date(timestamp).toLocaleString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
-}
+import { HistoryItem } from '@popup/components/HistoryItem/HistoryItem';
+import { getIssueIcon, formatTimestamp } from '@popup/utils/issueHelpers';
 
 export function HistoryScreen() {
   const { history, deleteFromHistory, clearAllHistory } = useIssues();
@@ -65,25 +38,15 @@ export function HistoryScreen() {
 
         <div className="history-screen__list">
           {history.map((issue) => (
-            <div key={issue.id} className="history-screen__item">
-              {getIcon(issue.type)}
-              <div className="history-screen__item-content">
-                <div className="history-screen__item-value">{issue.value}</div>
-                <div className="history-screen__item-timestamp">
-                  {formatTimestamp(issue.timestamp)}
-                </div>
-              </div>
-              <button
-                type="button"
-                className="history-screen__item-delete"
-                onClick={() => {
-                  void deleteFromHistory(issue.id);
-                }}
-                aria-label="Delete from history"
-              >
-                ×
-              </button>
-            </div>
+            <HistoryItem
+              key={issue.id}
+              icon={getIssueIcon(issue.type, 'history-screen__item-icon')}
+              value={issue.value}
+              timestamp={formatTimestamp(issue.timestamp)}
+              onDelete={() => {
+                void deleteFromHistory(issue.id);
+              }}
+            />
           ))}
         </div>
       </div>

@@ -1,43 +1,15 @@
 import type { DetectedIssue } from '@lib/detectors/types';
-import EmailIcon from './assets/email.svg?react';
-import PhoneIcon from './assets/phone.svg?react';
-import CreditCardIcon from './assets/credit_card.svg?react';
-import SsnIcon from './assets/ssn.svg?react';
+import { getIssueIcon, formatTimestamp } from '@popup/utils/issueHelpers';
 
 interface IssueListItemProps {
   issue: DetectedIssue;
   onDismiss: (id: string, duration: '24h' | 'forever') => void;
 }
 
-const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
-  email: EmailIcon,
-  phone: PhoneIcon,
-  creditCard: CreditCardIcon,
-  ssn: SsnIcon,
-};
-
-function getIcon(type: string) {
-  const IconComponent = ICON_MAP[type];
-  if (!IconComponent) return null;
-  return <IconComponent className="issue-list-item__icon" />;
-}
-
-function formatTimestamp(timestamp: number) {
-  return new Date(timestamp).toLocaleString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
-}
-
 export function IssueListItem({ issue, onDismiss }: IssueListItemProps) {
   return (
     <div className="issue-list-item">
-      {getIcon(issue.type)}
+      {getIssueIcon(issue.type, 'issue-list-item__icon')}
       <div className="issue-list-item__content">
         <div className="issue-list-item__value">{issue.value}</div>
         <div className="issue-list-item__timestamp">{formatTimestamp(issue.timestamp)}</div>

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useIssues } from '@popup/hooks/useIssues';
 import { ProtectedModeToggle } from '@popup/components/ProtectedModeToggle/ProtectedModeToggle';
-import { IssueList } from '@popup/components/IssueList/IssueList';
+import { IssueListItem } from '@popup/components/IssueListItem/IssueListItem';
 
 export function IssuesFoundScreen() {
   const { latestIssues, dismissIssue, clearDismissed, markIssuesAsViewed } = useIssues();
@@ -38,13 +38,25 @@ export function IssuesFoundScreen() {
   return (
     <div className="issues-found-screen">
       <ProtectedModeToggle />
-      <IssueList
-        issues={activeIssues}
-        onClearAll={() => {
-          void markIssuesAsViewed();
-        }}
-        onDismissIssue={dismissIssue}
-      />
+      <div className="issues-found-screen__panel">
+        <div className="issues-found-screen__header">
+          <h2 className="issues-found-screen__title">Issues Found</h2>
+          <button
+            type="button"
+            className="issues-found-screen__clear-button"
+            onClick={() => {
+              void markIssuesAsViewed();
+            }}
+          >
+            Clear all
+          </button>
+        </div>
+        <div className="issues-found-screen__items">
+          {activeIssues.map((issue) => (
+            <IssueListItem key={issue.id} issue={issue} onDismiss={dismissIssue} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
