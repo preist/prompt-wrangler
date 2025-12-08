@@ -6,7 +6,9 @@ interface IssueListItemProps {
   onDismiss: (id: string, duration: '24h' | 'forever') => void;
 }
 
-export function IssueListItem({ issue, onDismiss }: IssueListItemProps) {
+export function IssueListItem(props: IssueListItemProps) {
+  const { issue, onDismiss } = props;
+
   return (
     <div className="issue-list-item">
       {getIssueIcon(issue.type, 'issue-list-item__icon')}
@@ -21,7 +23,7 @@ export function IssueListItem({ issue, onDismiss }: IssueListItemProps) {
               onDismiss(issue.id, '24h');
             }}
           >
-            Dismiss for 24 hours
+            Snooze (24h)
           </button>
           <button
             type="button"

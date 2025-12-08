@@ -26,7 +26,13 @@ export interface IssuesContextValue {
 // eslint-disable-next-line react-refresh/only-export-components
 export const IssuesContext = createContext<IssuesContextValue | undefined>(undefined);
 
-export function IssuesProvider({ children }: { children: ReactNode }) {
+interface IssuesProviderProps {
+  children: ReactNode;
+}
+
+export function IssuesProvider(props: IssuesProviderProps) {
+  const { children } = props;
+
   const [latestBatchId, setLatestBatchId] = useState<string | null>(null);
   const [history, setHistory] = useState<Issue[]>([]);
 

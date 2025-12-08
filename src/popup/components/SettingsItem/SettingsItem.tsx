@@ -7,7 +7,9 @@ interface SettingsItemProps {
   children: ReactNode;
 }
 
-export function SettingsItem({ title, description, children }: SettingsItemProps) {
+export function SettingsItem(props: SettingsItemProps) {
+  const { title, description, children } = props;
+
   return (
     <div className="settings-item">
       <div className="settings-item__content">

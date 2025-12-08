@@ -7,7 +7,9 @@ interface SettingsSectionProps {
   children: ReactNode;
 }
 
-export function SettingsSection({ title, description, children }: SettingsSectionProps) {
+export function SettingsSection(props: SettingsSectionProps) {
+  const { title, description, children } = props;
+
   return (
     <div className="settings-section">
       {title && <h3 className="settings-section__title">{title}</h3>}

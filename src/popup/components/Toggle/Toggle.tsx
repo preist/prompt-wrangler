@@ -7,7 +7,9 @@ interface ToggleProps {
   onChange: (checked: boolean) => void;
 }
 
-export function Toggle({ label, description, checked, disabled, large, onChange }: ToggleProps) {
+export function Toggle(props: ToggleProps) {
+  const { label, description, checked, disabled, large, onChange } = props;
+
   const handleChange = () => {
     if (!disabled) {
       onChange(!checked);

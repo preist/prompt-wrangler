@@ -11,7 +11,9 @@ interface NavigationProps {
   onChange: (screen: Screen) => void;
 }
 
-export function Navigation({ current, className, onChange }: NavigationProps) {
+export function Navigation(props: NavigationProps) {
+  const { current, className, onChange } = props;
+
   return (
     <nav className={classnames('navigation', className)}>
       <button

@@ -39,7 +39,13 @@ const DEFAULT_SETTINGS = {
   },
 };
 
-export function SettingsProvider({ children }: { children: ReactNode }) {
+interface SettingsProviderProps {
+  children: ReactNode;
+}
+
+export function SettingsProvider(props: SettingsProviderProps) {
+  const { children } = props;
+
   const [protectedMode, setProtectedMode] = useState(DEFAULT_SETTINGS.protectedMode);
   const [enabledPlatforms, setEnabledPlatforms] = useState(DEFAULT_SETTINGS.enabledPlatforms);
   const [enabledDataTypes, setEnabledDataTypes] = useState(DEFAULT_SETTINGS.enabledDataTypes);

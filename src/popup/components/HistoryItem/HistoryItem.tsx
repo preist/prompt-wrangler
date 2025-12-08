@@ -8,7 +8,9 @@ interface HistoryItemProps {
   onDelete: () => void;
 }
 
-export function HistoryItem({ icon, value, timestamp, onDelete }: HistoryItemProps) {
+export function HistoryItem(props: HistoryItemProps) {
+  const { icon, value, timestamp, onDelete } = props;
+
   return (
     <div className="history-item">
       {icon}
