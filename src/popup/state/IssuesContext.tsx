@@ -100,6 +100,8 @@ export function IssuesProvider(props: IssuesProviderProps) {
 
     await addToAllowlist(issue.value, issue.type, duration);
 
+    window.dispatchEvent(new CustomEvent('allowlist-item-added'));
+
     const until: number | 'forever' =
       duration === 'forever' ? 'forever' : Date.now() + 24 * 60 * 60 * 1000;
 

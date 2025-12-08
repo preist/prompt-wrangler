@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { classnames } from '@lib/utils/classnames';
 import ShieldIcon from './assets/shield.svg?react';
 import CalendarIcon from './assets/calendar.svg?react';
@@ -14,6 +15,22 @@ interface NavigationProps {
 
 export function Navigation(props: NavigationProps) {
   const { current, className, onChange } = props;
+  const [jiggle, setJiggle] = useState(false);
+
+  useEffect(() => {
+    const handleAllowlistChange = () => {
+      setJiggle(true);
+      setTimeout(() => {
+        setJiggle(false);
+      }, 600);
+    };
+
+    window.addEventListener('allowlist-item-added', handleAllowlistChange);
+
+    return () => {
+      window.removeEventListener('allowlist-item-added', handleAllowlistChange);
+    };
+  }, []);
 
   return (
     <nav className={classnames('navigation', className)}>
@@ -39,7 +56,7 @@ export function Navigation(props: NavigationProps) {
       </button>
       <button
         type="button"
-        className={`navigation__button ${current === 'allowlist' ? 'navigation__button--active' : ''}`}
+        className={`navigation__button ${current === 'allowlist' ? 'navigation__button--active' : ''} ${jiggle ? 'navigation__button--jiggle' : ''}`}
         onClick={() => {
           onChange('allowlist');
         }}
