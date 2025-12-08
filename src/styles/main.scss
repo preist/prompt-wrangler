@@ -8,8 +8,10 @@
 @use '../popup/components/ProtectedModeToggle/ProtectedModeToggle';
 @use '../popup/components/IssueListItem/IssueListItem';
 @use '../popup/components/HistoryItem/HistoryItem';
+@use '../popup/components/AllowlistItem/AllowlistItem';
 @use '../popup/components/SettingsSection/SettingsSection';
 @use '../popup/components/SettingsItem/SettingsItem';
 @use '../popup/screens/IssuesFoundScreen/IssuesFoundScreen';
 @use '../popup/screens/HistoryScreen/HistoryScreen';
+@use '../popup/screens/AllowlistScreen/AllowlistScreen';
 @use '../popup/screens/SettingsScreen/SettingsScreen';

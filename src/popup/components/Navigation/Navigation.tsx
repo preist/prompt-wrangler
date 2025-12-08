@@ -1,9 +1,10 @@
 import { classnames } from '@lib/utils/classnames';
 import ShieldIcon from './assets/shield.svg?react';
 import CalendarIcon from './assets/calendar.svg?react';
+import AllowlistIcon from './assets/allowlist.svg?react';
 import SettingsIcon from './assets/settings.svg?react';
 
-export type Screen = 'issues' | 'history' | 'settings';
+export type Screen = 'issues' | 'history' | 'allowlist' | 'settings';
 
 interface NavigationProps {
   current: Screen;
@@ -35,6 +36,16 @@ export function Navigation(props: NavigationProps) {
       >
         <CalendarIcon className="navigation__icon" />
         <span className="navigation__label">History</span>
+      </button>
+      <button
+        type="button"
+        className={`navigation__button ${current === 'allowlist' ? 'navigation__button--active' : ''}`}
+        onClick={() => {
+          onChange('allowlist');
+        }}
+      >
+        <AllowlistIcon className="navigation__icon" />
+        <span className="navigation__label">Allowlist</span>
       </button>
       <button
         type="button"

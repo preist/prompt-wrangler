@@ -23,7 +23,7 @@ export function IssueListItem(props: IssueListItemProps) {
               onDismiss(issue.id, '24h');
             }}
           >
-            Snooze (24h)
+            Allow for 24h
           </button>
           <button
             type="button"
@@ -32,7 +32,7 @@ export function IssueListItem(props: IssueListItemProps) {
               onDismiss(issue.id, 'forever');
             }}
           >
-            Dismiss forever
+            Allow forever
           </button>
         </div>
       </div>
