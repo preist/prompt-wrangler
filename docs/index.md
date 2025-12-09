@@ -32,3 +32,6 @@ Chrome extension that detects and anonymizes sensitive data in AI chat prompts.
 
 ## Source code
 - Full source is in [this repository](https://github.com/preist/prompt-wrangler); GitHub provides source archives on the release page if you prefer downloading without `git clone`.
+
+## Privacy & Terms
+- [Terms of Service & Privacy Policy](terms.html)
