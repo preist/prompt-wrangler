@@ -16,10 +16,12 @@ export interface SettingsContextValue {
   protectedMode: boolean;
   enabledPlatforms: EnabledPlatforms;
   enabledDataTypes: EnabledDataTypes;
+  hasCompletedOnboarding: boolean;
   toggleProtectedMode: () => Promise<void>;
   togglePlatform: (platform: keyof EnabledPlatforms) => Promise<void>;
   toggleDataType: (type: keyof EnabledDataTypes) => Promise<void>;
   enableAllDataTypes: () => Promise<void>;
+  completeOnboarding: () => Promise<void>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -49,6 +51,7 @@ export function SettingsProvider(props: SettingsProviderProps) {
   const [protectedMode, setProtectedMode] = useState(DEFAULT_SETTINGS.protectedMode);
   const [enabledPlatforms, setEnabledPlatforms] = useState(DEFAULT_SETTINGS.enabledPlatforms);
   const [enabledDataTypes, setEnabledDataTypes] = useState(DEFAULT_SETTINGS.enabledDataTypes);
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
 
   // Load settings from chrome.storage on mount
   useEffect(() => {
@@ -57,6 +60,7 @@ export function SettingsProvider(props: SettingsProviderProps) {
         'settings.protectedMode',
         'settings.platforms',
         'settings.dataTypes',
+        'settings.hasCompletedOnboarding',
       ]);
 
       if (result['settings.protectedMode'] !== undefined) {
@@ -67,6 +71,9 @@ export function SettingsProvider(props: SettingsProviderProps) {
       }
       if (result['settings.dataTypes']) {
         setEnabledDataTypes(result['settings.dataTypes'] as EnabledDataTypes);
+      }
+      if (result['settings.hasCompletedOnboarding'] !== undefined) {
+        setHasCompletedOnboarding(result['settings.hasCompletedOnboarding'] as boolean);
       }
     };
 
@@ -216,16 +223,61 @@ export function SettingsProvider(props: SettingsProviderProps) {
     }
   };
 
+  const completeOnboarding = async () => {
+    // Set all default settings
+    const newDataTypes = {
+      email: true,
+      phone: true,
+      creditCard: true,
+      ssn: true,
+    };
+    const newPlatforms = {
+      chatgpt: true,
+      claude: false,
+    };
+
+    setProtectedMode(true);
+    setEnabledDataTypes(newDataTypes);
+    setEnabledPlatforms(newPlatforms);
+    setHasCompletedOnboarding(true);
+
+    await chrome.storage.local.set({
+      'settings.protectedMode': true,
+      'settings.dataTypes': newDataTypes,
+      'settings.platforms': newPlatforms,
+      'settings.hasCompletedOnboarding': true,
+    });
+
+    // Notify content script
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tab?.id) {
+      try {
+        await chrome.tabs.sendMessage(tab.id, {
+          type: 'TOGGLE_PROTECTED_MODE',
+          enabled: true,
+        });
+        await chrome.tabs.sendMessage(tab.id, {
+          type: 'UPDATE_DATA_TYPES',
+          dataTypes: newDataTypes,
+        });
+      } catch {
+        // Content script not available - ignore error
+      }
+    }
+  };
+
   return (
     <SettingsContext.Provider
       value={{
         protectedMode,
         enabledPlatforms,
         enabledDataTypes,
+        hasCompletedOnboarding,
         toggleProtectedMode,
         togglePlatform,
         toggleDataType,
         enableAllDataTypes,
+        completeOnboarding,
       }}
     >
       {children}

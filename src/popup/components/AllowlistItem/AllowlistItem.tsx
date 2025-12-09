@@ -1,5 +1,5 @@
 import type { AllowlistItem as AllowlistItemType } from '@lib/storage/allowlist';
-import { getIssueIcon } from '@popup/utils/issueHelpers';
+import { IssueIcon } from '@popup/components/IssueIcon/IssueIcon';
 
 interface AllowlistItemProps {
   item: AllowlistItemType;
@@ -13,7 +13,7 @@ export function AllowlistItem(props: AllowlistItemProps) {
 
   return (
     <div className="allowlist-item">
-      {getIssueIcon(item.type, 'allowlist-item__icon')}
+      <IssueIcon type={item.type} />
       <div className="allowlist-item__content">
         <div className="allowlist-item__value">{item.value}</div>
         <div className="allowlist-item__expiry">{expiryText}</div>

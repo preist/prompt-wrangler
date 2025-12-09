@@ -12,12 +12,6 @@
   }
 }
 
-.issue-list-item__icon {
-  flex-shrink: 0;
-  height: 28px;
-  width: 28px;
-}
-
 .issue-list-item__content {
   display: flex;
   flex: 1;
@@ -26,9 +20,9 @@
 }
 
 .issue-list-item__value {
-  color: $color-text-dark;
+  color: $color-primary;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: normal;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

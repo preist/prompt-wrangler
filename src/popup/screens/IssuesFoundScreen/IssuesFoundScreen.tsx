@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useIssues } from '@popup/hooks/useIssues';
-import { ProtectedModeToggle } from '@popup/components/ProtectedModeToggle/ProtectedModeToggle';
+import { ScreenContainer } from '@popup/components/ScreenContainer/ScreenContainer';
+import { ScreenEmptyState } from '@popup/components/ScreenEmptyState/ScreenEmptyState';
+import { ScreenPanel } from '@popup/components/ScreenPanel/ScreenPanel';
 import { IssueListItem } from '@popup/components/IssueListItem/IssueListItem';
 
 export function IssuesFoundScreen() {
@@ -23,40 +25,30 @@ export function IssuesFoundScreen() {
 
   if (activeIssues.length === 0) {
     return (
-      <div className="issues-found-screen">
-        <ProtectedModeToggle />
-        <div className="issues-found-screen__empty">
-          <div className="issues-found-screen__empty-title">No issues found</div>
-          <div className="issues-found-screen__empty-description">
-            Tumbleweeds, your prompts are clean and secure
-          </div>
-        </div>
-      </div>
+      <ScreenContainer>
+        <ScreenEmptyState
+          title="No issues found"
+          description="Tumbleweeds, your prompts are clean and secure"
+        />
+      </ScreenContainer>
     );
   }
 
   return (
-    <div className="issues-found-screen">
-      <ProtectedModeToggle />
-      <div className="issues-found-screen__panel">
-        <div className="issues-found-screen__header">
-          <h2 className="issues-found-screen__title">Issues Found</h2>
-          <button
-            type="button"
-            className="issues-found-screen__clear-button"
-            onClick={() => {
-              void markIssuesAsViewed();
-            }}
-          >
-            Clear all
-          </button>
-        </div>
-        <div className="issues-found-screen__items">
-          {activeIssues.map((issue) => (
-            <IssueListItem key={issue.id} issue={issue} onDismiss={dismissIssue} />
-          ))}
-        </div>
-      </div>
-    </div>
+    <ScreenContainer>
+      <ScreenPanel
+        title="Issues Found"
+        action={{
+          label: 'Clear all',
+          onClick: () => {
+            void markIssuesAsViewed();
+          },
+        }}
+      >
+        {activeIssues.map((issue) => (
+          <IssueListItem key={issue.id} issue={issue} onDismiss={dismissIssue} />
+        ))}
+      </ScreenPanel>
+    </ScreenContainer>
   );
 }

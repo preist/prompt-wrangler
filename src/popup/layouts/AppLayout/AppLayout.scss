@@ -13,10 +13,14 @@
   width: 360px;
 }
 
+.app__protected-mode-toggle {
+  padding-top: 76px;
+}
+
 .app__navigation {
   position: absolute;
   right: 0;
-  top: 0;
+  top: 16px;
 }
 
 .app__content {

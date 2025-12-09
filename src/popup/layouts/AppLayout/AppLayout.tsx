@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Navigation } from '@popup/components/Navigation/Navigation';
+import { ProtectedModeToggle } from '@popup/components/ProtectedModeToggle/ProtectedModeToggle';
 import { IssuesFoundScreen } from '@popup/screens/IssuesFoundScreen/IssuesFoundScreen';
 import { HistoryScreen } from '@popup/screens/HistoryScreen/HistoryScreen';
 import { AllowlistScreen } from '@popup/screens/AllowlistScreen/AllowlistScreen';
@@ -13,6 +14,10 @@ export function AppLayout() {
   return (
     <div className="app">
       <Navigation className="app__navigation" current={currentScreen} onChange={setCurrentScreen} />
+      <div className="app__protected-mode-toggle">
+        <ProtectedModeToggle />
+      </div>
+
       <div className="app__content">
         {currentScreen === 'issues' && <IssuesFoundScreen />}
         {currentScreen === 'history' && <HistoryScreen />}

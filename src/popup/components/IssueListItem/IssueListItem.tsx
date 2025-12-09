@@ -1,5 +1,6 @@
 import type { DetectedIssue } from '@lib/detectors/types';
-import { getIssueIcon, formatTimestamp } from '@popup/utils/issueHelpers';
+import { IssueIcon } from '@popup/components/IssueIcon/IssueIcon';
+import { formatTimestamp } from '@popup/utils/issueHelpers';
 
 interface IssueListItemProps {
   issue: DetectedIssue;
@@ -11,7 +12,7 @@ export function IssueListItem(props: IssueListItemProps) {
 
   return (
     <div className="issue-list-item">
-      {getIssueIcon(issue.type, 'issue-list-item__icon')}
+      <IssueIcon type={issue.type} />
       <div className="issue-list-item__content">
         <div className="issue-list-item__value">{issue.value}</div>
         <div className="issue-list-item__timestamp">{formatTimestamp(issue.timestamp)}</div>
