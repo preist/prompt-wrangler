@@ -2,6 +2,8 @@
 
 Chrome extension that detects and anonymizes sensitive data in AI chat prompts.
 
+**Safari version:** A Safari port is also available at [https://preist.github.io/prompt-wrangler-safari/](https://preist.github.io/prompt-wrangler-safari/) with source code at [https://github.com/preist/prompt-wrangler-safari](https://github.com/preist/prompt-wrangler-safari)
+
 ## Tech Stack
 
 React + TypeScript + Vite + Sass + Chrome Extension Manifest V3
