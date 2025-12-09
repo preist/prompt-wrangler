@@ -28,7 +28,7 @@ export default tseslint.config(
         chrome: 'readonly',
       },
       parserOptions: {
-        projectService: true,
+        project: ['./tsconfig.app.json', './tsconfig.vitest.json', './tsconfig.node.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },

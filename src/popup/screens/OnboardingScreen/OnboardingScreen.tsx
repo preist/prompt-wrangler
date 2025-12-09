@@ -23,7 +23,8 @@ export function OnboardingScreen(props: OnboardingScreenProps) {
           <h1 className="onboarding-screen__title">Howdy, partner</h1>
 
           <p className="onboarding-screen__text">
-            Welcome to Prompt Wrangler, my goal is to help keep personal info out of ChatGPT.
+            Welcome to <strong>Prompt Wrangler</strong>, my goal is to help keep personal info out
+            of ChatGPT.
           </p>
 
           <p className="onboarding-screen__text">
